@@ -1,1 +1,12 @@
-/.metadata/
+# Ignore .settings folder (IDE settings)
+.settings/
+ 
+# Ignore .project file (IDE project descriptor)
+.project
+ 
+# Ignore .classpath file (IDE classpath settings)
+.classpath
+ 
+# Ignore target folder (compiled classes and build output)
+target/
+ 
