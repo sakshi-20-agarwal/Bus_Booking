@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cg.btb</groupId>
-	<artifactId>CustomerService</artifactId>
+	<artifactId>BTBCustomerService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CustomerService</name>
-	<description>This is Address microservice for the BusTicketBookingApp</description>
+	<description>This is Customer microservice for the BusTicketBookingApp</description>
 	<url/>
 	<licenses>
 		<license/>

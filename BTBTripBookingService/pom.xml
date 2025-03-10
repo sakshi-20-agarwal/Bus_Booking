@@ -11,7 +11,7 @@
 	<groupId>com.cg.btb</groupId>
 	<artifactId>TripBookingService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TripBookingService</name>
+	<name>BTBTripBookingService</name>
 	<description>This is TripBooking microservice for the BusTicketBookingApp</description>
 	<url/>
 	<licenses>
