@@ -10,3 +10,4 @@
 # Ignore target folder (compiled classes and build output)
 target/
  
+/.metadata/
