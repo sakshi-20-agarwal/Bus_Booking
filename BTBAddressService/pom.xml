@@ -11,7 +11,7 @@
 	<groupId>com.cg.btb</groupId>
 	<artifactId>BTBAddressService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>AddressService</name>
+	<name>BTBAddressService</name>
 	<description>This is Address microservice for the BusTicketBookingApp</description>
 	<url/>
 	<licenses>

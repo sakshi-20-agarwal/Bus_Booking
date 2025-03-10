@@ -11,7 +11,7 @@
 	<groupId>com.cg.btb</groupId>
 	<artifactId>BTBCustomerService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CustomerService</name>
+	<name>BTBCustomerService</name>
 	<description>This is Customer microservice for the BusTicketBookingApp</description>
 	<url/>
 	<licenses>
