@@ -1,11 +1,15 @@
 package com.sprint.btb.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.sprint.btb.entity.BookingEntity;
 import com.sprint.btb.entity.BusEntity;
 import com.sprint.btb.entity.RouteEntity;
 import com.sprint.btb.entity.TripEntity;
+import com.sprint.btb.model.BookingModel;
 import com.sprint.btb.model.BusModel;
 import com.sprint.btb.model.RouteModel;
 import com.sprint.btb.model.TripModel;
@@ -109,5 +113,32 @@ public class BTBUtil {
 	                tripEntity.getTripDate()
 	        );
 	    }
+	
+	//---------------------------------BOOKIN CONVERSIONS-------------------------------------//
+	public static BookingEntity convertBookingModelToEntity(BookingModel bm) {
+		BookingEntity bookingEntity = new BookingEntity();
+		bookingEntity.setBookingId(bm.getBookingId());
+		bookingEntity.setSeatNumber(bm.getSeatNumber());
+		bookingEntity.setStatus(bm.getStatus());
+
+		return bookingEntity;
+	}
+
+	public static BookingModel convertBookingEntityToModel(BookingEntity be) {
+		return new BookingModel(be.getBookingId(), be.getSeatNumber(), be.getTrip().getTripId(), be.getStatus()
+
+		);
+	}
+
+	public static Set<BookingModel> convertBookingEntityListToModelSet(List<BookingEntity> bookingEntities) {
+		Set<BookingModel> bookingModelSet = new HashSet<>();
+
+		for (BookingEntity bookingEntity : bookingEntities) {
+			BookingModel bookingModel = convertBookingEntityToModel(bookingEntity);
+			bookingModelSet.add(bookingModel);
+		}
+
+		return bookingModelSet;
+	}
 	
 }

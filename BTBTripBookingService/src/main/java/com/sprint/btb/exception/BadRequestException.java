@@ -2,6 +2,7 @@ package com.sprint.btb.exception;
 
 public class BadRequestException extends Exception{
 
+	String message;
 	public BadRequestException() {
 		super();
 		// TODO Auto-generated constructor stub

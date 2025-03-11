@@ -6,7 +6,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -16,30 +15,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
-
 @Entity
-@Table(name="bookings")
+@Table(name = "bookings")
 public class BookingEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="booking_id")
-    private int bookingId;
- 
-    @ManyToOne
-    @JoinColumn(name = "trip_id")
-    private TripEntity trip;
- 
-    @Column(name = "seat_number", nullable = false)
-    private Integer seatNumber;
-    
-    @Enumerated(EnumType.STRING)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "booking_id")
+	private int bookingId;
+
+	@ManyToOne
+	@JoinColumn(name = "trip_id")
+	private TripEntity trip;
+
+	@Column(name = "seat_number", nullable = false)
+	private Integer seatNumber;
+
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private BookingStatus status = BookingStatus.Available;
 
 	public enum BookingStatus {
-		Available,
-	    Booked
+		Available, Booked
 	}
 
 	public BookingEntity() {
@@ -92,10 +89,5 @@ public class BookingEntity {
 		return "BookingEntity [bookingId=" + bookingId + ", trip=" + trip + ", seatNumber=" + seatNumber + ", status="
 				+ status + "]";
 	}
-	
-	
+
 }
-
-
-
-	
