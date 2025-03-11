@@ -14,7 +14,7 @@ public class RouteEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="route_id")
-    private Long routeId;
+    private int routeId;
  
 	
 	@Column(name = "from_city", nullable = false, length = 255)
@@ -34,7 +34,7 @@ public class RouteEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public RouteEntity(Long routeId, String fromCity, String toCity, Integer breakPoints, Integer duration) {
+	public RouteEntity(int routeId, String fromCity, String toCity, Integer breakPoints, Integer duration) {
 		super();
 		this.routeId = routeId;
 		this.fromCity = fromCity;
@@ -43,11 +43,11 @@ public class RouteEntity {
 		this.duration = duration;
 	}
 
-	public Long getRouteId() {
+	public int getRouteId() {
 		return routeId;
 	}
 
-	public void setRouteId(Long routeId) {
+	public void setRouteId(int routeId) {
 		this.routeId = routeId;
 	}
 

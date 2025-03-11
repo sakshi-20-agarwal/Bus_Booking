@@ -19,14 +19,14 @@ public class TripEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "trip_id")
-	private Long tripId;
+	private int tripId;
 
 	@ManyToOne
-	@JoinColumn(name = "route_id", referencedColumnName = "route_id")
+	@JoinColumn(name = "route_id")
 	private RouteEntity route;
 
 	@ManyToOne
-	@JoinColumn(name = "bus_id", referencedColumnName = "bus_id")
+	@JoinColumn(name = "bus_id")
 	private BusEntity bus;
 
 	@Column(name = "boarding_address_id")
@@ -46,7 +46,7 @@ public class TripEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TripEntity(Long tripId, RouteEntity route, BusEntity bus, int boardingId, int droppingId,
+	public TripEntity(int tripId, RouteEntity route, BusEntity bus, int boardingId, int droppingId,
 			LocalDateTime departureTime, LocalDateTime arrivalTime, Integer availableSeats, float fare,
 			LocalDateTime tripDate) {
 		super();
@@ -62,11 +62,11 @@ public class TripEntity {
 		this.tripDate = tripDate;
 	}
 
-	public Long getTripId() {
+	public int getTripId() {
 		return tripId;
 	}
 
-	public void setTripId(Long tripId) {
+	public void setTripId(int tripId) {
 		this.tripId = tripId;
 	}
 

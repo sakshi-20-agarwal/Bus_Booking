@@ -24,7 +24,7 @@ public class BookingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="booking_id")
-    private Long bookingId;
+    private int bookingId;
  
     @ManyToOne
     @JoinColumn(name = "trip_id")
@@ -47,7 +47,7 @@ public class BookingEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BookingEntity(Long bookingId, TripEntity trip, Integer seatNumber, BookingStatus status) {
+	public BookingEntity(int bookingId, TripEntity trip, Integer seatNumber, BookingStatus status) {
 		super();
 		this.bookingId = bookingId;
 		this.trip = trip;
@@ -55,11 +55,11 @@ public class BookingEntity {
 		this.status = status;
 	}
 
-	public Long getBookingId() {
+	public int getBookingId() {
 		return bookingId;
 	}
 
-	public void setBookingId(Long bookingId) {
+	public void setBookingId(int bookingId) {
 		this.bookingId = bookingId;
 	}
 

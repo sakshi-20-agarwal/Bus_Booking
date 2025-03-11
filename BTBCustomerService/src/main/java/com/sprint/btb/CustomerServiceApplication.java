@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AddressServiceApplication {
+public class CustomerServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AddressServiceApplication.class, args);
-		System.out.println("Address Service is running on 9092 Port !!");
+		SpringApplication.run(CustomerServiceApplication.class, args);
+		System.out.println("Customer Service is running on 9092 Port !!");
 	}
 
 }

@@ -3,6 +3,8 @@ package com.sprint.btb.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,6 +16,7 @@ public class BusEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name= "bus_id")
     private int busId;
  
 	@Column(name = "registration_number", nullable = false, length = 20)
@@ -22,12 +25,15 @@ public class BusEntity {
 	@Column(nullable = false)
 	private Integer capacity;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name="type",nullable = false, length = 30)
 	private BusType bustype;
 	
+	
+	
 	public enum BusType {
-		AC,
-	    NONAC 
+		Ac,
+	    NonAc
 	}
  
 
