@@ -3,6 +3,7 @@ package com.sprint.btb.entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,11 +22,11 @@ public class TripEntity {
 	@Column(name = "trip_id")
 	private int tripId;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "route_id")
 	private RouteEntity route;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "bus_id")
 	private BusEntity bus;
 

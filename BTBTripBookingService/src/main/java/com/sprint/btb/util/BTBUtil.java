@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.sprint.btb.entity.BusEntity;
 import com.sprint.btb.entity.RouteEntity;
+import com.sprint.btb.entity.TripEntity;
 import com.sprint.btb.model.BusModel;
 import com.sprint.btb.model.RouteModel;
+import com.sprint.btb.model.TripModel;
 
 public class BTBUtil {
 	
@@ -89,5 +91,23 @@ public class BTBUtil {
 		return busModelList;
 	}
 	
+	
+	
+//	------------------------------------TRIP CONVERSIONS------------------------------------------------------------//
+	
+	public static TripModel convertTripToModel(TripEntity tripEntity) {
+	        return new TripModel (
+	                tripEntity.getTripId(),
+	                tripEntity.getRoute(),
+	                tripEntity.getBus(),
+	                tripEntity.getBoardingId(),
+	                tripEntity.getDroppingId(),
+	                tripEntity.getDepartureTime(),
+	                tripEntity.getArrivalTime(),
+	                tripEntity.getAvailableSeats(),
+	                tripEntity.getFare(),
+	                tripEntity.getTripDate()
+	        );
+	    }
 	
 }
