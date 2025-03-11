@@ -8,25 +8,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="routes")
+@Table(name = "routes")
 public class RouteEntity {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="route_id")
-    private int routeId;
- 
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "route_id")
+	private int routeId;
+
 	@Column(name = "from_city", nullable = false, length = 255)
 	private String fromCity;
-	
+
 	@Column(name = "to_city", nullable = false, length = 255)
 	private String toCity;
-	
+
 	@Column(name = "break_points")
 	private Integer breakPoints;
-	
-	@Column(name="duration", nullable = false)
+
+	@Column(name = "duration", nullable = false)
 	private Integer duration;
 
 	public RouteEntity() {
@@ -88,6 +87,5 @@ public class RouteEntity {
 		return "RouteEntity [routeId=" + routeId + ", fromCity=" + fromCity + ", toCity=" + toCity + ", breakPoints="
 				+ breakPoints + ", duration=" + duration + "]";
 	}
-	
-}
 
+}

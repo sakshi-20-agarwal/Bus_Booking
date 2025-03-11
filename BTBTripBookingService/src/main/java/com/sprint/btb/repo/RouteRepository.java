@@ -1,5 +1,19 @@
 package com.sprint.btb.repo;
 
-public class RouteRepository {
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.sprint.btb.entity.RouteEntity;
+
+@Repository
+public interface RouteRepository extends JpaRepository<RouteEntity, Integer> {
+
+	List<RouteEntity> findByFromCity(String fromCity);
+
+	List<RouteEntity> findByToCity(String toCity);
+
+	List<RouteEntity> findByFromCityAndToCity(String fromCity, String toCity);
 
 }
