@@ -1,6 +1,5 @@
 package com.sprint.btb.repo;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +30,5 @@ public interface BookingRepository extends JpaRepository<BookingEntity, Integer>
 	@Modifying
 	@Query("UPDATE BookingEntity b SET b.status = :status WHERE b.bookingId = :bookingId")
 	void updateBookingStatus(@Param("bookingId") int bookingId, @Param("status") BookingEntity.BookingStatus status);
-    int countByTrip_Bus_BusIdAndStatus(int busId, BookingEntity.BookingStatus status);
 
 }
