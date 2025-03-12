@@ -15,7 +15,7 @@ import com.sprint.btb.service.RouteServiceImpl;
 import com.sprint.btb.exception.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/routes")
 public class RouteController {
 
 	@Autowired

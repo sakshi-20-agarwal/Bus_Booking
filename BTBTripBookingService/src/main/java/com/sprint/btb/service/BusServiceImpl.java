@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.sprint.btb.entity.BusEntity;
 import com.sprint.btb.entity.TripEntity;
+import com.sprint.btb.entity.BookingEntity;
 import com.sprint.btb.exception.BadRequestException;
 import com.sprint.btb.model.BusModel;
 import com.sprint.btb.model.TripModel;
+import com.sprint.btb.repo.BookingRepository;
 import com.sprint.btb.repo.BusRepository;
 import com.sprint.btb.repo.TripRepository;
 import com.sprint.btb.util.BTBUtil;
@@ -20,6 +22,9 @@ public class BusServiceImpl implements BusService {
 
 	@Autowired
 	BusRepository busRepo;
+
+	@Autowired
+	BookingRepository bookingRepo;
 
 	@Override
 	public BusModel getBusById(int busId) throws BadRequestException {
@@ -56,6 +61,12 @@ public class BusServiceImpl implements BusService {
 			throw new BadRequestException("No buses found for this bus type.");
 		}
 		return buses;
+	}
+
+	@Override
+	public int getBusSeatCapacity(int busId) throws BadRequestException {
+		BusEntity bus = busRepo.findById(busId).orElseThrow(() -> new BadRequestException("Bus not found"));
+		return bus.getCapacity();
 	}
 
 }

@@ -14,7 +14,7 @@ import com.sprint.btb.service.BusServiceImpl;
 import com.sprint.btb.util.BTBUtil;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/buses")
 public class BusController {
 
 	@Autowired
@@ -22,14 +22,13 @@ public class BusController {
 
 	@Autowired
 	BusRepository busRepo;
-	
 
-	@GetMapping("/buses/{busId}/seats")
-	public String getBusSeats(@PathVariable int busId) throws BadRequestException {
-		return "Seat availability details for Bus ID " + busId;
+	@GetMapping("/")
+	public List<BusModel> getAllBuses() throws BadRequestException {
+		return busService.getAllBuses();
 	}
 
-	@GetMapping("/buses/id/{busId}")
+	@GetMapping("/id/{busId}")
 	public BusModel getBusById(@PathVariable int busId) throws BadRequestException {
 		return busService.getBusById(busId);
 	}
@@ -39,12 +38,13 @@ public class BusController {
 		return busService.deleteBusById(busId);
 	}
 
-	@GetMapping("/buses")
-	public List<BusModel> getAllBuses() throws BadRequestException {
-		return busService.getAllBuses();
+	@GetMapping("/{busId}/seats")
+	public int getBusSeats(@PathVariable int busId) throws BadRequestException {
+	    BusEntity bus = busRepo.findById(busId).orElseThrow(() -> new BadRequestException("Bus not found"));
+	    return bus.getCapacity();
 	}
 
-	@GetMapping("/buses/type/{bus_type}")
+	@GetMapping("/type/{bus_type}")
 	public List<BusEntity> getBusesByType(@PathVariable("bus_type") String busType) throws BadRequestException {
 		try {
 			BusEntity.BusType busEnumType = BusEntity.BusType.valueOf(busType);
@@ -55,6 +55,7 @@ public class BusController {
 		} catch (Exception e) {
 			throw new BadRequestException("An unexpected error occurred: " + e.getMessage());
 		}
-
 	}
+	
+
 }

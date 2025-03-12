@@ -7,7 +7,6 @@ import com.sprint.btb.exception.BadRequestException;
 import com.sprint.btb.model.BusModel;
 import com.sprint.btb.model.TripModel;
 
-
 public interface BusService {
 
 	public BusModel getBusById(int busId) throws BadRequestException;
@@ -15,5 +14,7 @@ public interface BusService {
 	public List<BusModel> getAllBuses() throws BadRequestException;
 	public List<BusEntity> getBusesByType(BusEntity.BusType busType) throws BadRequestException;
 
+
+	public int getBusSeatCapacity(int busId) throws BadRequestException;
 
 }
