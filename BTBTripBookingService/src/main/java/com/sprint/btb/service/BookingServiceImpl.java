@@ -190,4 +190,11 @@ public class BookingServiceImpl implements BookingService {
 
 	// ----------------------------------------------------------------------------------------
 
+	@Override
+	public boolean isSeatAvailable(int tripId, int seatNumber) {
+	    Optional<BookingEntity> existingBooking = bookingRepo.findByTripIdAndSeatNumber(tripId, seatNumber);
+	    
+	    return existingBooking.isEmpty() || existingBooking.get().getStatus() == BookingEntity.BookingStatus.Available;
+	}
+
 }

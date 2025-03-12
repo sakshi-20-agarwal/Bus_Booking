@@ -64,4 +64,9 @@ public class BookingController {
 		return bookingService.updateBooking(bookingId, updatedBooking);
 	}
 
+	@GetMapping("/{tripId}/seats/{seatNumber}/availability")
+	public Boolean checkSeatAvailability(@PathVariable int tripId, @PathVariable int seatNumber) {
+	    boolean isAvailable = bookingService.isSeatAvailable(tripId, seatNumber);
+	    return isAvailable;
+	}
 }
