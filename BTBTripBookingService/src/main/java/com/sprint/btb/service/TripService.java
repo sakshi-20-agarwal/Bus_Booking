@@ -26,4 +26,7 @@ public interface TripService {
 	// List<TripModel> fetchTripsByFromCityToCityDateAndBusType(String fromCity,
 	// String toCity, LocalDateTime tripDate, String busType) throws
 	// BadRequestException;
+	
+	public List<Integer> getAvailableSeats(int tripId) throws BadRequestException;
+
 }

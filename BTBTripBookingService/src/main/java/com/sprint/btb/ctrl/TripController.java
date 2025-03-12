@@ -1,7 +1,10 @@
 package com.sprint.btb.ctrl;
 
 import com.sprint.btb.model.TripModel;
+import com.sprint.btb.repo.BookingRepository;
+import com.sprint.btb.repo.TripRepository;
 import com.sprint.btb.service.TripService;
+import com.sprint.btb.entity.TripEntity;
 import com.sprint.btb.exception.BadRequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/trips")
+@RequestMapping("/api/trips")
 public class TripController {
 
 	private final TripService tripService;
@@ -32,10 +35,8 @@ public class TripController {
 		return trip;
 	}
 
-	
-	
 //------------------------------- Get trips by "from city"----------------------------------------------------//
-	
+
 	@GetMapping("/from/{fromCity}")
 	public List<TripModel> getTripsByFromCity(@PathVariable String fromCity) throws BadRequestException {
 		List<TripModel> trips = tripService.fetchTripsByFromCity(fromCity);
@@ -44,11 +45,9 @@ public class TripController {
 		}
 		return trips;
 	}
-	
-	
 
 // --------------------------------Get trips by "to city"------------------------------------------------------//
-	
+
 	@GetMapping("/to/{toCity}")
 	public List<TripModel> getTripsByToCity(@PathVariable String toCity) throws BadRequestException {
 		List<TripModel> trips = tripService.fetchTripsByToCity(toCity);
@@ -57,11 +56,9 @@ public class TripController {
 		}
 		return trips;
 	}
-	
-	
 
 //------------------------------Get trips by "from city", "to city", and "trip date"-----------------------------//
-	
+
 	@GetMapping("/from/{fromCity}/to/{toCity}/on/{tripDate}")
 	public List<TripModel> getTripsByFromCityToCityAndDate(@PathVariable String fromCity, @PathVariable String toCity,
 			@PathVariable String tripDate) {
@@ -88,8 +85,7 @@ public class TripController {
 	}
 
 //-----------------------Get trips by "from city", "to city", "trip date", and "bus type"----------------------------//
-	
-	
+
 //    @GetMapping("/from/{fromCity}/to/{toCity}/on/{tripDate}/bus/{busType}")
 //    public List<TripModel> getTripsByFromCityToCityDateAndBusType(
 //            @PathVariable String fromCity,
@@ -108,4 +104,10 @@ public class TripController {
 //            throw new TripNotFoundException("Invalid date format or other error");
 //        }
 //    }
+
+	@GetMapping("/{tripId}/available-seats")
+	public List<Integer> getAvailableSeats(@PathVariable int tripId) throws BadRequestException {
+		return tripService.getAvailableSeats(tripId);
+	}
+
 }

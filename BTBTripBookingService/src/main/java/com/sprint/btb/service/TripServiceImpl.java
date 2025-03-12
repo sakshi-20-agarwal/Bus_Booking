@@ -1,9 +1,12 @@
 package com.sprint.btb.service;
 
 import com.sprint.btb.entity.TripEntity;
+import com.sprint.btb.entity.BookingEntity;
+
 import com.sprint.btb.exception.BadRequestException;
 
 import com.sprint.btb.model.TripModel;
+import com.sprint.btb.repo.BookingRepository;
 import com.sprint.btb.repo.TripRepository;
 import com.sprint.btb.util.BTBUtil;
 
@@ -13,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -23,6 +29,11 @@ public class TripServiceImpl implements TripService {
 
     @Autowired
     TripRepository tripRepository;
+	
+	@Autowired
+	BookingRepository bookingRepo;
+	
+	
 
 
     @Transactional
@@ -97,4 +108,34 @@ public class TripServiceImpl implements TripService {
 //        }
 //        return tripModels;
 //    }
+    
+
+
+    public List<Integer> getAvailableSeats(int tripId) throws BadRequestException {
+        Optional<TripEntity> optionalTrip = tripRepository.findById(tripId);
+
+        if (optionalTrip.isEmpty()) {
+            throw new BadRequestException("Trip not found with ID: " + tripId);
+        }
+
+        TripEntity trip = optionalTrip.get();
+        int totalSeats = trip.getBus().getCapacity();
+
+        List<Integer> bookedSeats = bookingRepo.findByTripId(tripId).stream()
+            .filter(booking -> booking.getStatus() == BookingEntity.BookingStatus.Booked)
+            .map(BookingEntity::getSeatNumber)
+            .collect(Collectors.toList());
+
+        Set<Integer> bookedSeatsSet = new HashSet<>(bookedSeats);
+        List<Integer> availableSeats = new ArrayList<>();
+
+        for (int seatNumber = 1; seatNumber <= totalSeats; seatNumber++) {
+            if (!bookedSeatsSet.contains(seatNumber)) {
+                availableSeats.add(seatNumber);
+            }
+        }
+
+        return availableSeats;
+    }
+
 }
