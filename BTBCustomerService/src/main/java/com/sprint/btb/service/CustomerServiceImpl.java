@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
             if (customerRepository.findByEmail(customerModel.getEmail()) != null) {
                 throw new BadRequestException("Email already exists");
             }
-            String url = "http://localhost:9001/api/addresses/" + customerModel.getAddressId();
+            String url = "http://localhost:9091/api/addresses/" + customerModel.getAddressId();
             AddressModel addressModel = restTemplate.getForObject(url, AddressModel.class);
             if (addressModel == null) {
                 throw new BadRequestException("Address not found for addressId: " + customerModel.getAddressId());
@@ -65,12 +65,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerModel> getAllCustomers() throws BadRequestException {
-        try {
+    	try {
             List<CustomerEntity> customers = customerRepository.findAll();
-            Set<CustomerModel> customerModelSet = customers.stream()
-                    .map(CustomerUtil::convertCustomerEntityToCustomerModel)
-                    .collect(Collectors.toSet());
-            return customerModelSet.stream().collect(Collectors.toList());
+            return CustomerUtil.convertCustomerEntitiesToCustomerModels(customers);
         } catch (Exception e) {
             throw new BadRequestException("Error fetching customers");
         }
@@ -82,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerEntity customer = customerRepository.findById(customerId)
                     .orElseThrow(() -> new BadRequestException("Customer not found"));
             CustomerModel customerModel = CustomerUtil.convertCustomerEntityToCustomerModel(customer);
-            String url = "http://localhost:9001/api/addresses/" + customer.getAddressId();
+            String url = "http://localhost:9091/api/addresses/" + customer.getAddressId();
             AddressModel addressModel = restTemplate.getForObject(url, AddressModel.class);
             return customerModel;
         } catch (Exception e) {

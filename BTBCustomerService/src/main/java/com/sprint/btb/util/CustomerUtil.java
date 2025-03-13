@@ -1,5 +1,8 @@
 package com.sprint.btb.util;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.sprint.btb.entity.CustomerEntity;
 import com.sprint.btb.model.CustomerModel;
 
@@ -26,4 +29,10 @@ public class CustomerUtil {
 		customer.setPassword(customerModel.getPassword());
 		return customer;
 	}
+	
+	public static List<CustomerModel> convertCustomerEntitiesToCustomerModels(List<CustomerEntity> customerEntities) {
+        return customerEntities.stream()
+                .map(CustomerUtil::convertCustomerEntityToCustomerModel)
+                .collect(Collectors.toList());
+    }
 }
