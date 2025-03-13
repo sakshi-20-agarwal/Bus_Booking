@@ -1,6 +1,7 @@
 package com.sprint.btb.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ public class ReviewEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "review_id")
-	private Long reviewId;
+	private int reviewId;
 
 	@Column(name = "customer_id")
 	private CustomerEntity customer;
@@ -37,15 +38,15 @@ public class ReviewEntity {
 	private String comment;
 
 	@Column(name = "review_date")
-	private Date reviewDate;
+	private LocalDateTime reviewDate;
 
 	public ReviewEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReviewEntity(Long reviewId, CustomerEntity customer, int tripId, Integer rating, String comment,
-			Date reviewDate) {
+	public ReviewEntity(int reviewId, CustomerEntity customer, int tripId, Integer rating, String comment,
+			LocalDateTime reviewDate) {
 		super();
 		this.reviewId = reviewId;
 		this.customer = customer;
@@ -55,12 +56,12 @@ public class ReviewEntity {
 		this.reviewDate = reviewDate;
 	}
 
-	public Long getReviewId() {
+	public int getReviewId() {
 		return reviewId;
 	}
 
-	public void setReviewId(Long reviewId) {
-		this.reviewId = reviewId;
+	public void setReviewId(int i) {
+		this.reviewId = i;
 	}
 
 	public CustomerEntity getCustomer() {
@@ -87,7 +88,7 @@ public class ReviewEntity {
 		this.comment = comment;
 	}
 
-	public Date getReviewDate() {
+	public LocalDateTime getReviewDate() {
 		return reviewDate;
 	}
 
@@ -99,8 +100,8 @@ public class ReviewEntity {
 		this.tripId = tripId;
 	}
 
-	public void setReviewDate(Date reviewDate) {
-		this.reviewDate = reviewDate;
+	public void setReviewDate(LocalDateTime localDateTime) {
+		this.reviewDate = localDateTime;
 	}
 
 	@Override
