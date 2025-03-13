@@ -1,9 +1,14 @@
 package com.sprint.btb.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 public class CustomerEntity {
 
     @Id
@@ -20,6 +25,7 @@ public class CustomerEntity {
     @Column(name = "phone")
     private String phone;
 
+    
     @Column(name = "address_id")
     private int addressId;
     
@@ -93,12 +99,6 @@ public class CustomerEntity {
 		return "CustomerEntity [customerId=" + customerId + ", name=" + name + ", email=" + email + ", phone=" + phone
 				+ ", addressId=" + addressId + ", password=" + password + "]";
 	}
-
-    
-	
-
-    
-    
     
 }
 

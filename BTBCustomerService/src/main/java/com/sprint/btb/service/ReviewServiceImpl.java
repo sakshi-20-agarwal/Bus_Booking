@@ -77,15 +77,15 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 	}
 
-	@Override
-	public ReviewModel getReviewsByCustomerId(int customerId) throws BadRequestException {
-
-		Optional<ReviewEntity> reviewEn = reviewRepository.findById(customerId);
-		if (reviewEn.isPresent()) {
-			return ReviewUtil.convertReviewEntityToEntityModel(reviewEn.get());
-		}
-		throw new BadRequestException("Review for Customer Id " + customerId + " Not Found!");
-	}
+//	@Override
+//	public ReviewModel getReviewsByCustomerId(int customerId) throws BadRequestException {
+//
+//		Optional<ReviewEntity> reviewEn = reviewRepository.findById(customerId);
+//		if (reviewEn.isPresent()) {
+//			return ReviewUtil.convertReviewEntityToEntityModel(reviewEn.get());
+//		}
+//		throw new BadRequestException("Review for Customer Id " + customerId + " Not Found!");
+//	}
 
 	@Override
 	public List<ReviewModel> getReviewsByTripId(int tripId) throws BadRequestException {

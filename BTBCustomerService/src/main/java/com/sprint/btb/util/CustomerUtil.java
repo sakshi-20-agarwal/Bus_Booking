@@ -3,9 +3,11 @@ package com.sprint.btb.util;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Configuration;
+
 import com.sprint.btb.entity.CustomerEntity;
 import com.sprint.btb.model.CustomerModel;
-
+@Configuration
 public class CustomerUtil {
 
 	public static CustomerModel convertCustomerEntityToCustomerModel(CustomerEntity customer) {

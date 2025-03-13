@@ -39,10 +39,10 @@ public class ReviewController {
 		return reviewService.deleteReview(id);
 	}
 
-	@GetMapping("/customer/{customerId}")
-	public ReviewModel fetchReviewsByCustomerId(@PathVariable("customerId") int customerId) throws BadRequestException {
-		return reviewService.getReviewsByCustomerId(customerId);
-	}
+//	@GetMapping("/customer/{customerId}")
+//	public ReviewModel fetchReviewsByCustomerId(@PathVariable("customerId") int customerId) throws BadRequestException {
+//		return reviewService.getReviewsByCustomerId(customerId);
+//	}
 
 	@GetMapping("/trip/{tripId}")
 	public List<ReviewModel> fetchReviewsByTripId(@PathVariable("tripId") int tripId) throws BadRequestException {

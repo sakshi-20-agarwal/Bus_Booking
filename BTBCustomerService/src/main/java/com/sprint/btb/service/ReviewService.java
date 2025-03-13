@@ -15,7 +15,7 @@ public interface ReviewService {
 
 	String deleteReview(int reviewId) throws BadRequestException;
 
-	ReviewModel getReviewsByCustomerId(int customerId) throws BadRequestException;
+//	ReviewModel getReviewsByCustomerId(int customerId) throws BadRequestException;
 
 	List<ReviewModel> getReviewsByTripId(int tripId) throws BadRequestException;
 
