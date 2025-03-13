@@ -7,6 +7,8 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
+import com.sprint.btb.model.PaymentStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,9 +48,9 @@ public class PaymentEntity {
 	@Column(name = "payment_status", nullable = false)
 	private PaymentStatus paymentStatus;
 
-	public enum PaymentStatus {
-		Success, Failed
-	}
+//	public enum PaymentStatus {
+//		Success, Failed
+//	}
 
 	public PaymentEntity() {
 		super();
