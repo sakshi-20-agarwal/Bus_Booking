@@ -24,12 +24,12 @@ public class BusController {
 	BusRepository busRepo;
 
 	@GetMapping("/")
-	public List<BusModel> getAllBuses() throws BadRequestException {
+	public List<BusModel> fetchAllBuses() throws BadRequestException {
 		return busService.getAllBuses();
 	}
 
 	@GetMapping("/id/{busId}")
-	public BusModel getBusById(@PathVariable int busId) throws BadRequestException {
+	public BusModel fetchBusById(@PathVariable int busId) throws BadRequestException {
 		return busService.getBusById(busId);
 	}
 
@@ -39,13 +39,13 @@ public class BusController {
 	}
 
 	@GetMapping("/{busId}/seats")
-	public int getBusSeats(@PathVariable int busId) throws BadRequestException {
+	public int fetchBusSeats(@PathVariable int busId) throws BadRequestException {
 	    BusEntity bus = busRepo.findById(busId).orElseThrow(() -> new BadRequestException("Bus not found"));
 	    return bus.getCapacity();
 	}
 
 	@GetMapping("/type/{bus_type}")
-	public List<BusEntity> getBusesByType(@PathVariable("bus_type") String busType) throws BadRequestException {
+	public List<BusEntity> fetchBusesByType(@PathVariable("bus_type") String busType) throws BadRequestException {
 		try {
 			BusEntity.BusType busEnumType = BusEntity.BusType.valueOf(busType);
 			List<BusEntity> buses = busService.getBusesByType(busEnumType);

@@ -27,7 +27,6 @@ public class ReviewEntity {
 
 	@ManyToOne
 	@JoinColumn(name="customer_id", referencedColumnName = "customer_id")
-	//@Column(name = "customer_id")
 	private CustomerEntity customer;
 
 	@Column(name = "trip_id")

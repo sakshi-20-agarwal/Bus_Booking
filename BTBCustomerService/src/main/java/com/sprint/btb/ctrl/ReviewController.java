@@ -8,6 +8,7 @@ import com.sprint.btb.entity.ReviewEntity;
 import com.sprint.btb.exception.BadRequestException;
 import com.sprint.btb.model.ReviewModel;
 import com.sprint.btb.service.ReviewService;
+import com.sprint.btb.service.ReviewServiceImpl;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class ReviewController {
 
 	@Autowired
-	private ReviewService reviewService;
+	private ReviewServiceImpl reviewService;
 
 	@GetMapping("/{id}")
 	public ReviewModel fetchReviewById(@PathVariable("id") int reviewId) throws BadRequestException {
@@ -39,10 +40,12 @@ public class ReviewController {
 		return reviewService.deleteReview(id);
 	}
 
-//	@GetMapping("/customer/{customerId}")
-//	public ReviewModel fetchReviewsByCustomerId(@PathVariable("customerId") int customerId) throws BadRequestException {
-//		return reviewService.getReviewsByCustomerId(customerId);
-//	}
+
+	@GetMapping("/customer/{customerId}")
+	public List<ReviewModel> fetchReviewsByCustomerId(@PathVariable("customerId") int customerId) throws BadRequestException {
+	    return reviewService.getReviewsByCustomerId(customerId);
+	}
+
 
 	@GetMapping("/trip/{tripId}")
 	public List<ReviewModel> fetchReviewsByTripId(@PathVariable("tripId") int tripId) throws BadRequestException {

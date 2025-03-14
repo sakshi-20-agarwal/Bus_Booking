@@ -18,6 +18,9 @@ public class BusEntity {
 	@Column(name = "bus_id")
 	private int busId;
 
+	@Column(name = "bus_name")
+	private String busName;
+
 	@Column(name = "registration_number", nullable = false, length = 20)
 	private String registrationNumber;
 
@@ -37,9 +40,10 @@ public class BusEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BusEntity(int busId, String registrationNumber, Integer capacity, BusType busType) {
+	public BusEntity(int busId, String busName, String registrationNumber, Integer capacity, BusType busType) {
 		super();
 		this.busId = busId;
+		this.busName = busName;
 		this.registrationNumber = registrationNumber;
 		this.capacity = capacity;
 		this.busType = busType;
@@ -77,10 +81,18 @@ public class BusEntity {
 		this.busType = busType;
 	}
 
+	public String getBusName() {
+		return busName;
+	}
+
+	public void setBusName(String busName) {
+		this.busName = busName;
+	}
+
 	@Override
 	public String toString() {
-		return "BusEntity [busId=" + busId + ", registrationNumber=" + registrationNumber + ", capacity=" + capacity
-				+ ", busType=" + busType + "]";
+		return "BusEntity [busId=" + busId + ", busName=" + busName + ", registrationNumber=" + registrationNumber
+				+ ", capacity=" + capacity + ", busType=" + busType + "]";
 	}
 
 }

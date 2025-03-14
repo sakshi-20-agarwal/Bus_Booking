@@ -5,6 +5,7 @@ import com.sprint.btb.entity.BusEntity.BusType;
 public class BusModel {
 
 	private int busId;
+	private String busName;
 	private String registrationNumber;
 	private Integer capacity;
 	private BusType busType;
@@ -14,9 +15,10 @@ public class BusModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BusModel(int busId, String registrationNumber, Integer capacity, BusType busType) {
+	public BusModel(int busId, String busName, String registrationNumber, Integer capacity, BusType busType) {
 		super();
 		this.busId = busId;
+		this.busName = busName;
 		this.registrationNumber = registrationNumber;
 		this.capacity = capacity;
 		this.busType = busType;
@@ -28,6 +30,14 @@ public class BusModel {
 
 	public void setBusId(int busId) {
 		this.busId = busId;
+	}
+
+	public String getBusName() {
+		return busName;
+	}
+
+	public void setBusName(String busName) {
+		this.busName = busName;
 	}
 
 	public String getRegistrationNumber() {
@@ -56,8 +66,8 @@ public class BusModel {
 
 	@Override
 	public String toString() {
-		return "BusModel [busId=" + busId + ", registrationNumber=" + registrationNumber + ", capacity=" + capacity
-				+ ", busType=" + busType + "]";
+		return "BusModel [busId=" + busId + ", busName=" + busName + ", registrationNumber=" + registrationNumber
+				+ ", capacity=" + capacity + ", busType=" + busType + "]";
 	}
 
 }

@@ -13,8 +13,6 @@ public interface BusService {
 	public BusModel deleteBusById(int busId) throws BadRequestException;
 	public List<BusModel> getAllBuses() throws BadRequestException;
 	public List<BusEntity> getBusesByType(BusEntity.BusType busType) throws BadRequestException;
-
-
 	public int getBusSeatCapacity(int busId) throws BadRequestException;
 
 }
