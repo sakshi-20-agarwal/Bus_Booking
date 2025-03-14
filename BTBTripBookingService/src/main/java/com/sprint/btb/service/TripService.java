@@ -9,24 +9,17 @@ import java.util.List;
 
 public interface TripService {
 
-	// Fetch trip details by trip ID
-	TripModel fetchTripById(int tripId) throws BadRequestException;
+	public List<TripModel> getAllTrips() throws BadRequestException;
 
-	// Fetch trips by the "from city"
-	List<TripModel> fetchTripsByFromCity(String fromCity) throws BadRequestException;
-
-	// Fetch trips by the "to city"
-	List<TripModel> fetchTripsByToCity(String toCity) throws BadRequestException;
-
-	// Fetch trips by "from city", "to city", and "trip date"
-	List<TripModel> fetchTripsByFromCityToCityAndDate(String fromCity, String toCity, LocalDateTime tripDate)
+	TripModel getTripById(int tripId) throws BadRequestException;
+	public List<TripModel> getTripsByFromCity(String fromCity) throws BadRequestException;
+	public List<TripModel> getTripsByToCity(String toCity) throws BadRequestException;
+	public List<TripModel> getTripsByFromCityToCityAndDate(String fromCity, String toCity, LocalDateTime tripDate)
 			throws BadRequestException;
-
+	public List<Integer> getAvailableSeats(int tripId) throws BadRequestException;
 	// Fetch trips by "from city", "to city", "trip date", and "bus type"
 	// List<TripModel> fetchTripsByFromCityToCityDateAndBusType(String fromCity,
 	// String toCity, LocalDateTime tripDate, String busType) throws
 	// BadRequestException;
-	
-	public List<Integer> getAvailableSeats(int tripId) throws BadRequestException;
 
 }

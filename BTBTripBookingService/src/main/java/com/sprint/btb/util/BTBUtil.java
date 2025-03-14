@@ -15,10 +15,9 @@ import com.sprint.btb.model.RouteModel;
 import com.sprint.btb.model.TripModel;
 
 public class BTBUtil {
-	
-	//---------------------------ROUTE CONVERSIONS---------------------------//
-	
-	
+
+	// ---------------------------ROUTE CONVERSIONS---------------------------//
+
 	public static RouteModel convertRouteEntityToRouteModel(RouteEntity routeEntity) {
 
 		RouteModel routeModel = new RouteModel();
@@ -57,13 +56,12 @@ public class BTBUtil {
 		return routeModelList;
 	}
 
-	
-	//---------------------------BUS CONVERSIONS---------------------------//
-	
-	
+	// ---------------------------BUS CONVERSIONS---------------------------//
+
 	public static BusModel convertBusEntityToBusModel(BusEntity busEntity) {
 		BusModel busModel = new BusModel();
 		busModel.setBusId(busEntity.getBusId());
+		busModel.setBusName(busEntity.getBusName());
 		busModel.setCapacity(busEntity.getCapacity());
 		busModel.setRegistrationNumber(busEntity.getRegistrationNumber());
 		busModel.setBusType(busEntity.getBusType());
@@ -73,6 +71,7 @@ public class BTBUtil {
 	public static BusEntity convertBusModelBusEntity(BusModel busModel) {
 		BusEntity busEntity = new BusEntity();
 		busEntity.setBusId(busModel.getBusId());
+		busEntity.setBusName(busModel.getBusName());
 		busEntity.setCapacity(busModel.getCapacity());
 		busEntity.setRegistrationNumber(busModel.getRegistrationNumber());
 		busEntity.setBusType(busModel.getBusType());
@@ -94,27 +93,34 @@ public class BTBUtil {
 		}
 		return busModelList;
 	}
-	
-	
-	
+
 //	------------------------------------TRIP CONVERSIONS------------------------------------------------------------//
+
+	public static TripModel convertTripEntityToModel(TripEntity tripEntity) {
+		return new TripModel(tripEntity.getTripId(), 
+				tripEntity.getRoute(), 
+				tripEntity.getBus(),
+				tripEntity.getBoardingId(), 
+				tripEntity.getDroppingId(), 
+				tripEntity.getDepartureTime(),
+				tripEntity.getArrivalTime(), 
+				tripEntity.getAvailableSeats(), 
+				tripEntity.getFare(),
+				tripEntity.getTripDate());
+	}
+
+	public static List<TripModel> convertListOfTripEntityToModel(List<TripEntity> tripEntityList) {
+		List<TripModel> tripModelList = new ArrayList<>();
+		for (TripEntity te : tripEntityList) {
+			tripModelList.add(convertTripEntityToModel(te));
+		}
+		return tripModelList;
+	}
+
 	
-	public static TripModel convertTripToModel(TripEntity tripEntity) {
-	        return new TripModel (
-	                tripEntity.getTripId(),
-	                tripEntity.getRoute(),
-	                tripEntity.getBus(),
-	                tripEntity.getBoardingId(),
-	                tripEntity.getDroppingId(),
-	                tripEntity.getDepartureTime(),
-	                tripEntity.getArrivalTime(),
-	                tripEntity.getAvailableSeats(),
-	                tripEntity.getFare(),
-	                tripEntity.getTripDate()
-	        );
-	    }
+	// ---------------------------------BOOKING  CONVERSIONS-------------------------------------//
 	
-	//---------------------------------BOOKIN CONVERSIONS-------------------------------------//
+	
 	public static BookingEntity convertBookingModelToEntity(BookingModel bm) {
 		BookingEntity bookingEntity = new BookingEntity();
 		bookingEntity.setBookingId(bm.getBookingId());
@@ -140,5 +146,5 @@ public class BTBUtil {
 
 		return bookingModelSet;
 	}
-	
+
 }

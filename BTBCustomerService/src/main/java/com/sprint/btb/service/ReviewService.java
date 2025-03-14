@@ -20,4 +20,6 @@ public interface ReviewService {
 	List<ReviewModel> getReviewsByTripId(int tripId) throws BadRequestException;
 
 	List<ReviewModel> getAllReviews() throws BadRequestException;
+
+	List<ReviewModel> getReviewsByCustomerId(int customerId) throws BadRequestException;
 }

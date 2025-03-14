@@ -1,5 +1,6 @@
 package com.sprint.btb.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,6 +87,21 @@ public class ReviewServiceImpl implements ReviewService {
 //		}
 //		throw new BadRequestException("Review for Customer Id " + customerId + " Not Found!");
 //	}
+	
+	@Override
+	public List<ReviewModel> getReviewsByCustomerId(int customerId) throws BadRequestException {
+	    List<ReviewEntity> reviews = reviewRepository.findByCustomer_CustomerId(customerId);
+	    if (reviews.isEmpty()) {
+	        throw new BadRequestException("No reviews found for Customer Id " + customerId);
+	    }
+	    
+	    List<ReviewModel> reviewModels = new ArrayList<>();
+	    for (ReviewEntity review : reviews) {
+	        reviewModels.add(ReviewUtil.convertReviewEntityToEntityModel(review));
+	    }
+	    return reviewModels;
+	}
+
 
 	@Override
 	public List<ReviewModel> getReviewsByTripId(int tripId) throws BadRequestException {

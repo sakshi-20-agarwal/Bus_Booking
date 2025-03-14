@@ -1,5 +1,6 @@
 package com.sprint.btb.ctrl;
 
+import com.sprint.btb.model.BusModel;
 import com.sprint.btb.model.TripModel;
 import com.sprint.btb.repo.BookingRepository;
 import com.sprint.btb.repo.TripRepository;
@@ -24,11 +25,17 @@ public class TripController {
 	public TripController(TripService tripService) {
 		this.tripService = tripService;
 	}
+	
+	
+	@GetMapping("/")
+	public List<TripModel> fetchAllTrips() throws BadRequestException {
+		return tripService.getAllTrips();
+	}
 
 //--------------------------------Get trip by trip ID--------------------------------------------------------//
 	@GetMapping("/{tripId}")
-	public TripModel getTripById(@PathVariable int tripId) throws BadRequestException {
-		TripModel trip = tripService.fetchTripById(tripId);
+	public TripModel fetchTripById(@PathVariable int tripId) throws BadRequestException {
+		TripModel trip = tripService.getTripById(tripId);
 		if (trip == null) {
 			throw new BadRequestException("Trip with ID " + tripId + " not found.");
 		}
@@ -38,8 +45,8 @@ public class TripController {
 //------------------------------- Get trips by "from city"----------------------------------------------------//
 
 	@GetMapping("/from/{fromCity}")
-	public List<TripModel> getTripsByFromCity(@PathVariable String fromCity) throws BadRequestException {
-		List<TripModel> trips = tripService.fetchTripsByFromCity(fromCity);
+	public List<TripModel> fetchTripsByFromCity(@PathVariable String fromCity) throws BadRequestException {
+		List<TripModel> trips = tripService.getTripsByFromCity(fromCity);
 		if (trips == null || trips.isEmpty()) {
 			throw new BadRequestException("No trips found from " + fromCity);
 		}
@@ -49,8 +56,8 @@ public class TripController {
 // --------------------------------Get trips by "to city"------------------------------------------------------//
 
 	@GetMapping("/to/{toCity}")
-	public List<TripModel> getTripsByToCity(@PathVariable String toCity) throws BadRequestException {
-		List<TripModel> trips = tripService.fetchTripsByToCity(toCity);
+	public List<TripModel> fetchTripsByToCity(@PathVariable String toCity) throws BadRequestException {
+		List<TripModel> trips = tripService.getTripsByToCity(toCity);
 		if (trips == null || trips.isEmpty()) {
 			throw new BadRequestException("No trips found to " + toCity);
 		}
@@ -60,7 +67,7 @@ public class TripController {
 //------------------------------Get trips by "from city", "to city", and "trip date"-----------------------------//
 
 	@GetMapping("/from/{fromCity}/to/{toCity}/on/{tripDate}")
-	public List<TripModel> getTripsByFromCityToCityAndDate(@PathVariable String fromCity, @PathVariable String toCity,
+	public List<TripModel> fetchTripsByFromCityToCityAndDate(@PathVariable String fromCity, @PathVariable String toCity,
 			@PathVariable String tripDate) {
 
 		System.out.println("Received tripDate: " + tripDate);
@@ -74,7 +81,7 @@ public class TripController {
 			System.out.println("Parsed date: " + date);
 
 			// Call the service method after parsing the date
-			List<TripModel> trips = tripService.fetchTripsByFromCityToCityAndDate(fromCity, toCity, date);
+			List<TripModel> trips = tripService.getTripsByFromCityToCityAndDate(fromCity, toCity, date);
 			return trips;
 
 		} catch (Exception e) {
@@ -106,7 +113,7 @@ public class TripController {
 //    }
 
 	@GetMapping("/{tripId}/available-seats")
-	public List<Integer> getAvailableSeats(@PathVariable int tripId) throws BadRequestException {
+	public List<Integer> fetchAvailableSeats(@PathVariable int tripId) throws BadRequestException {
 		return tripService.getAvailableSeats(tripId);
 	}
 
