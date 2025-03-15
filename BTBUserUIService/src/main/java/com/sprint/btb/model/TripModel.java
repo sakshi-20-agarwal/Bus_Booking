@@ -2,18 +2,11 @@ package com.sprint.btb.model;
 
 import java.time.LocalDateTime;
 
-import com.sprint.btb.entity.BusEntity;
-import com.sprint.btb.entity.RouteEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class TripModel {
-
 	private int tripId;
-	private RouteEntity route;
-	private BusEntity bus;
+	private int routeId;
+	private int busId;
 	private int boardingId;
 	private int droppingId;
 	private LocalDateTime departureTime;
@@ -25,13 +18,13 @@ public class TripModel {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public TripModel(int tripId, RouteEntity route, BusEntity bus, int boardingId, int droppingId,
+	public TripModel(int tripId, int routeId, int busId, int boardingId, int droppingId,
 			LocalDateTime departureTime, LocalDateTime arrivalTime, Integer availableSeats, float fare,
 			LocalDateTime tripDate) {
 		super();
 		this.tripId = tripId;
-		this.route = route;
-		this.bus = bus;
+		this.routeId = routeId;
+		this.busId = busId;
 		this.boardingId = boardingId;
 		this.droppingId = droppingId;
 		this.departureTime = departureTime;
@@ -46,17 +39,17 @@ public class TripModel {
 	public void setTripId(int tripId) {
 		this.tripId = tripId;
 	}
-	public RouteEntity getRoute() {
-		return route;
+	public int getRoute() {
+		return routeId;
 	}
-	public void setRoute(RouteEntity route) {
-		this.route = route;
+	public void setRoute(int routeId) {
+		this.routeId = routeId;
 	}
-	public BusEntity getBus() {
-		return bus;
+	public int getBus() {
+		return busId;
 	}
-	public void setBus(BusEntity bus) {
-		this.bus = bus;
+	public void setBus(int busId) {
+		this.busId = busId;
 	}
 	public int getBoardingId() {
 		return boardingId;
@@ -102,9 +95,8 @@ public class TripModel {
 	}
 	@Override
 	public String toString() {
-		return "TripModel [tripId=" + tripId + ", route=" + route + ", bus=" + bus + ", boardingId=" + boardingId
+		return "TripModel [tripId=" + tripId + ", route=" + routeId + ", bus=" + busId + ", boardingId=" + boardingId
 				+ ", droppingId=" + droppingId + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime
 				+ ", availableSeats=" + availableSeats + ", fare=" + fare + ", tripDate=" + tripDate + "]";
 	}
-
 }

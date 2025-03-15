@@ -55,8 +55,5 @@ public class AddressModel {
 		return "AddressDTO [addressId=" + addressId + ", address=" + address + ", city=" + city + ", state=" + state
 				+ ", zipCode=" + zipCode + "]";
 	}
-	
-
-    
 }
 
