@@ -65,29 +65,25 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public List<PaymentModel> getAllPayments() throws BadRequestException {
-		try {
+	    try {
+	        List<PaymentEntity> paymentList = paymentRepository.findAll();
 
-			List<PaymentEntity> paymentList = paymentRepository.findAll();
-			List<PaymentModel> paymentModels = new ArrayList<>();
-			for (PaymentEntity paymentEntity : paymentList) {
-				PaymentModel paymentModel = PaymentUtil.convertPaymentEntityToPaymentModel(paymentEntity);
-				String url = BOOKING_SERVICE_URL + "/" + paymentModel.getPaymentId();
-				BookingModel booking = restTemplate.getForObject(url, BookingModel.class);
+	        if (paymentList.isEmpty()) {
+	            throw new BadRequestException("No payments found.");
+	        }
 
-				if (booking == null) {
-					throw new BadRequestException("Booking not found for Payment ID: " + paymentModel.getPaymentId());
-				}
+	        List<PaymentModel> paymentModels = new ArrayList<>();
+	        for (PaymentEntity paymentEntity : paymentList) {
+	            PaymentModel paymentModel = PaymentUtil.convertPaymentEntityToPaymentModel(paymentEntity);
+	            paymentModels.add(paymentModel);
+	        }
 
-				paymentModel.setBookingId(booking.getBookingId());
-
-				paymentModels.add(paymentModel);
-			}
-
-			return paymentModels;
-		} catch (Exception e) {
-			throw new BadRequestException("Error fetching all payments: " + e.getMessage());
-		}
+	        return paymentModels;
+	    } catch (Exception e) {
+	        throw new BadRequestException("Error fetching all payments: " + e.getMessage());
+	    }
 	}
+
 
 	@Override
 	public List<PaymentModel> getPaymentsByCustomerId(int customerId) throws BadRequestException {
