@@ -77,12 +77,6 @@ public class CustomerModel {
     public String toString() {
         return "CustomerModel [customerId=" + customerId + ", name=" + name + ", email=" + email + ", phone=" + phone
                 + ", addressId=" + addressId + ", password=" + password + "]";
-    }
-    
-	
-    
-    
-    
-    
+    } 
 }
 
