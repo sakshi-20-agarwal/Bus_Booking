@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Seat Selection</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+		body {
+			font-family: 'Poppins', sans-serif;
+			background-color: #f8f9fa;
+			margin: 0;
+			padding: 0;
+		}
+
+		/* Navbar */
+		.navbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background-color: #d84e55;
+			padding: 10px 20px;
+			box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		.logo img {
+			height: 50px;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 20px;
+			margin-left: auto;
+			padding-right: 2%;
+		}
+
+		.nav-links a {
+			text-decoration: none;
+			color: white;
+			font-size: 16px;
+			font-weight: 500;
+			transition: 0.3s;
+		}
+
+		.nav-links a:hover {
+			color: #f8d7da;
+		}
+
+		/* Profile Dropdown */
+		.profile-menu {
+			position: relative;
+			display: inline-block;
+		}
+
+		.profile-btn {
+			background: none;
+			border: none;
+			color: white;
+			font-size: 18px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+		}
+
+		.profile-btn i {
+			margin-left: 5px;
+		}
+
+		.dropdown-menu {
+			display: none;
+			position: absolute;
+			right: 0;
+			background-color: white;
+			min-width: 150px;
+			box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+			border-radius: 5px;
+			z-index: 10;
+		}
+
+		.dropdown-menu a {
+			display: block;
+			padding: 10px;
+			text-decoration: none;
+			color: #333;
+			font-size: 16px;
+		}
+
+		.dropdown-menu a:hover {
+			background-color: #f0f0f0;
+		}
+
+		.profile-menu:hover .dropdown-menu {
+			display: block;
+		}
+
+		/* Container */
+		.container {
+			width: 85%;
+			margin: 30px auto;
+			background: white;
+			padding: 25px;
+			border-radius: 15px;
+			box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+			text-align: center;
+		}
+
+		h2 {
+			color: #d84e55;
+			font-size: 28px;
+			font-weight: 600;
+			margin-bottom: 20px;
+			letter-spacing: 1px;
+		}
+
+		/* Seat Layout */
+		.seat-container {
+			display: grid;
+			grid-template-columns: repeat(4, 60px);
+			gap: 15px;
+			justify-content: center;
+			margin-top: 20px;
+			padding: 15px;
+		}
+
+		.seat {
+			width: 60px;
+			height: 60px;
+			line-height: 60px;
+			font-size: 18px;
+			font-weight: bold;
+			border-radius: 8px;
+			text-align: center;
+			transition: all 0.3s ease-in-out;
+			cursor: pointer;
+			border: 2px solid #ccc;
+		}
+
+		.available {
+			background-color: #4caf50;
+			border-color: #2e7d32;
+			color: white;
+		}
+
+		.booked {
+			background-color: #d32f2f;
+			border-color: #b71c1c;
+			cursor: not-allowed;
+			color: white;
+		}
+
+		.selected {
+			background-color: #ff9800;
+			border-color: #f57c00;
+			color: white;
+		}
+
+		.seat:hover {
+			transform: scale(1.1);
+		}
+
+		.legend {
+			display: flex;
+			justify-content: space-around;
+			margin-top: 20px;
+			padding: 10px;
+		}
+
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 16px;
+			font-weight: 500;
+		}
+
+		.legend-box {
+			width: 24px;
+			height: 24px;
+			border-radius: 5px;
+		}
+
+		.green {
+			background-color: #4caf50;
+		}
+
+		.red {
+			background-color: #d32f2f;
+		}
+
+		.orange {
+			background-color: #ff9800;
+		}
+
+		.proceed-btn {
+			margin-top: 20px;
+			padding: 12px 25px;
+			background-color: #d84e55;
+			color: white;
+			font-size: 18px;
+			font-weight: 600;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all 0.3s;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			justify-content: center;
+			width: 100%;
+			box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+			text-decoration: none;
+		}
+
+		.proceed-btn:hover {
+			background-color: #b63e45;
+			transform: scale(1.05);
+		}
+
+		.proceed-btn i {
+			margin-right: 6px;
+		}
+
+		@media screen and (max-width: 768px) {
+			.container {
+				width: 95%;
+			}
+
+			.seat-container {
+				grid-template-columns: repeat(3, 60px);
+				gap: 12px;
+			}
+
+			.seat {
+				width: 50px;
+				height: 50px;
+				line-height: 50px;
+				font-size: 16px;
+			}
+
+			.legend-item {
+				font-size: 14px;
+			}
+
+			.proceed-btn {
+				padding: 10px 20px;
+				font-size: 16px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Navbar -->
+	<div class="navbar">
+		<div class="logo">
+			<img th:src="@{/images/logo.png}" alt="App Logo">
+		</div>
+
+		<!-- Navigation Links -->
+		<div class="nav-links">
+			<a th:href="@{/}">Home</a>
+			<a th:href="@{/mybookings}">My Bookings</a>
+			<a th:href="@{/contact}">Contact</a>
+		</div>
+
+		<div class="profile-menu">
+			<button class="profile-btn">
+				<i class="fa-solid fa-user"></i>
+			</button>
+			<div class="dropdown-menu">
+				<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
+				<a th:href="@{/my-bookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+				<a th:href="@{/logout}"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<h2>Select Your Seat</h2>
+
+		<!-- Seat Legend -->
+		<div class="legend">
+			<div class="legend-item">
+				<div class="legend-box green"></div> Available
+			</div>
+			<div class="legend-item">
+				<div class="legend-box red"></div> Booked
+			</div>
+			<div class="legend-item">
+				<div class="legend-box orange"></div> Selected
+			</div>
+		</div>
+
+		<!-- Seat Layout -->
+		<div class="seat-container">
+			<div th:each="status, iterStat : ${seatStatus}" th:data-seat-number="${iterStat.index + 1}"
+				th:data-status="${status}" th:class="'seat ' + ${status}">
+				<i class="fa-solid fa-chair"></i>
+			</div>
+		</div>
+
+		<!-- Proceed Button -->
+		<a th:href="@{/boarding-dropping/{tripId}(tripId=${tripId})}">
+			<button class="proceed-btn">
+				<i class="fa-solid fa-arrow-right"></i> Select Boarding and Dropping Points
+			</button>
+		</a>
+	</div>
+
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const seats = document.querySelectorAll(".seat");
+
+			seats.forEach(seat => {
+				seat.addEventListener("click", function () {
+					// Check if the seat is already booked
+					if (this.classList.contains("booked")) {
+						return; // Do nothing if the seat is booked
+					}
+
+					// Toggle the "selected" class
+					this.classList.toggle("selected");
+				});
+			});
+		});
+	</script>
+
+</body>
+
+</html>
