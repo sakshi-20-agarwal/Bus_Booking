@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.sprint.btb.entity.CustomerEntity;
@@ -20,6 +21,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Autowired
     private RestTemplate restTemplate;  
@@ -27,23 +32,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerModel createCustomer(CustomerModel customerModel) throws BadRequestException {
         try {
-            System.out.println("Creating customer with details: " + customerModel);
-            if (customerRepository.findByEmail(customerModel.getEmail()) != null) {
-                throw new BadRequestException("Email already exists");
-            }
-            String url = "http://localhost:9091/api/addresses/" + customerModel.getAddressId();
-            AddressModel addressModel = restTemplate.getForObject(url, AddressModel.class);
-            if (addressModel == null) {
-                throw new BadRequestException("Address not found for addressId: " + customerModel.getAddressId());
-            }
+            // Encode the password before saving the customer
+            String encodedPassword = passwordEncoder.encode(customerModel.getPassword());
+            customerModel.setPassword(encodedPassword);
+
+            // Proceed with creating the customer as before
             CustomerEntity customerEntity = CustomerUtil.convertCustomerModelToCustomerEntity(customerModel);
-            System.out.println("Saving customer to the database: " + customerEntity);
             customerEntity = customerRepository.save(customerEntity);
             customerModel.setCustomerId(customerEntity.getCustomerId());
-            System.out.println("Customer saved successfully with ID: " + customerModel.getCustomerId());
+
             return customerModel;
         } catch (Exception e) {
-            e.printStackTrace();
             throw new BadRequestException("Error creating customer: " + e.getMessage());
         }
     }
@@ -53,7 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity customer = customerRepository.findByEmail(loginModel.getEmail());
 
         if (customer != null) {
-            if (customer.getPassword().equals(loginModel.getPassword())) {
+            // Compare the passwords using the BCrypt encoder
+            if (passwordEncoder.matches(loginModel.getPassword(), customer.getPassword())) {
                 return CustomerUtil.convertCustomerEntityToCustomerModel(customer);
             } else {
                 throw new BadRequestException("Password doesn't match.");
@@ -79,8 +79,8 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerEntity customer = customerRepository.findById(customerId)
                     .orElseThrow(() -> new BadRequestException("Customer not found"));
             CustomerModel customerModel = CustomerUtil.convertCustomerEntityToCustomerModel(customer);
-            String url = "http://localhost:9091/api/addresses/" + customer.getAddressId();
-            AddressModel addressModel = restTemplate.getForObject(url, AddressModel.class);
+//            String url = "http://localhost:9091/api/addresses/" + customer.getAddressId();
+//            AddressModel addressModel = restTemplate.getForObject(url, AddressModel.class);
             return customerModel;
         } catch (Exception e) {
             throw new BadRequestException("Error fetching customer");
