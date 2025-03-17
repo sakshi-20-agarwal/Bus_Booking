@@ -1,5 +1,5 @@
 package com.sprint.btb.model;
-
+ 
 public class AddressModel {
 	 private int addressId;
 	    private String address;
@@ -14,6 +14,15 @@ public class AddressModel {
 			this.state = state;
 			this.zipCode = zipCode;
 		}
+		
+		public AddressModel(String address, String city, String state, String zipCode) {
+			super();
+			this.address = address;
+			this.city = city;
+			this.state = state;
+			this.zipCode = zipCode;
+		}
+ 
 		public AddressModel() {
 			super();
 			// TODO Auto-generated constructor stub
@@ -54,3 +63,5 @@ public class AddressModel {
 					+ ", zipCode=" + zipCode + "]";
 		}
 }
+ 
+ 
