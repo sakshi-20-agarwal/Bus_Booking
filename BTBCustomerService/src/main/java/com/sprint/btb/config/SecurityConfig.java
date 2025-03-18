@@ -16,38 +16,34 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomerDetailsService customerDetailsService;
+	private final CustomerDetailsService customerDetailsService;
 
-    public SecurityConfig(CustomerDetailsService customerDetailsService) {
-        this.customerDetailsService = customerDetailsService;
-    }
+	public SecurityConfig(CustomerDetailsService customerDetailsService) {
+		this.customerDetailsService = customerDetailsService;
+	}
 
-    // Define the Password Encoder bean for hashing the password
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    // Define the DAO Authentication Provider
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customerDetailsService); // Use our custom CustomerDetailsService
-        provider.setPasswordEncoder(passwordEncoder()); // Use the password encoder
-        return provider;
-    }
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(customerDetailsService);
+		provider.setPasswordEncoder(passwordEncoder());
+		return provider;
+	}
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(customizer -> customizer.disable()) // Disable CSRF (useful for stateless applications, can be enabled for stateful)
-                .authorizeRequests(request -> request
-                        .requestMatchers("/api/customers/create", "/api/customers/login" , "/api/customers/exists/**").permitAll() // Allow public access to create and login endpoints
-                        .anyRequest().authenticated() // All other requests require authentication
-                )
-                .formLogin(Customizer.withDefaults()) // Default form login
-                .httpBasic(Customizer.withDefaults()) // Basic Authentication if needed
-                .authenticationProvider(daoAuthenticationProvider()) // Set the authentication provider
-                .build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.csrf(customizer -> customizer.disable())
+				.authorizeRequests(request -> request
+						.requestMatchers("/api/customers/create", "/api/customers/login", "/api/customers/exists/**")
+						.permitAll()
+//                        .anyRequest().authenticated() 
+						.anyRequest().permitAll())
+				.formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+				.authenticationProvider(daoAuthenticationProvider()).build();
+	}
 }

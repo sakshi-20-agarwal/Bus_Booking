@@ -81,21 +81,21 @@ public class TripServiceImpl implements TripService {
 		return tripModels;
 	}
 
-	@Override
-	@Transactional
-	public List<TripModel> getTripsByFromCityToCityAndDate(String fromCity, String toCity, LocalDateTime tripDate)
-			throws BadRequestException {
-		List<TripEntity> trips = tripRepo.findByRouteFromCityAndRouteToCityAndTripDate(fromCity, toCity, tripDate);
-		if (trips.isEmpty()) {
-			throw new BadRequestException("No trips found for " + fromCity + " to " + toCity + " on " + tripDate);
-		}
-
-		List<TripModel> tripModels = new ArrayList<>();
-		for (TripEntity tripEntity : trips) {
-			tripModels.add(BTBUtil.convertTripEntityToModel(tripEntity));
-		}
-		return tripModels;
-	}
+	 @Override
+	    @Transactional
+	    public List<TripModel> getTripsByFromCityToCityAndDate(String fromCity, String toCity, LocalDateTime tripDate) throws BadRequestException {
+	        List<TripEntity> trips = tripRepo.findByRouteFromCityAndRouteToCityAndTripDate(fromCity, toCity, tripDate);
+	        if (trips.isEmpty()) {
+	            throw new BadRequestException("No trips found for " + fromCity + " to " + toCity + " on " + tripDate);
+	        }
+	        
+	       
+	        List<TripModel> tripModels = new ArrayList<>();
+	        for (TripEntity tripEntity : trips) {
+	            tripModels.add(BTBUtil.convertTripEntityToModel(tripEntity));
+	        }
+	        return tripModels;
+	    }
 
 //    @Override
 //    @Transactional

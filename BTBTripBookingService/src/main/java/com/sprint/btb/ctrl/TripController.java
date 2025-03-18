@@ -67,7 +67,7 @@ public class TripController {
 //------------------------------Get trips by "from city", "to city", and "trip date"-----------------------------//
 
 	@GetMapping("/from/{fromCity}/to/{toCity}/on/{tripDate}")
-	public List<TripModel> fetchTripsByFromCityToCityAndDate(@PathVariable String fromCity, @PathVariable String toCity,
+	public List<TripModel> getTripsByFromCityToCityAndDate(@PathVariable String fromCity, @PathVariable String toCity,
 			@PathVariable String tripDate) {
 
 		System.out.println("Received tripDate: " + tripDate);
