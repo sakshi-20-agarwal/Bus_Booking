@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookBus.com</title>
-    <link rel="stylesheet" href="index.css"> <!-- Link to the external CSS -->
+    <link rel="stylesheet" href="/css/index.css"> <!-- Link to the external CSS -->
 </head>
 
 <body>
@@ -19,7 +19,7 @@
 	 
 			<!-- Navigation Links -->
 			<div class="nav-links">
-				<a th:href="@{/}">Home</a>
+				<a th:href="@{/index}">Home</a>
 				<a th:href="@{/mybookings}">My Bookings</a>
 				<a th:href="@{/contact}">Contact</a>
 			</div>
@@ -45,7 +45,7 @@
             <p>Safe, fast, and affordable bus tickets for all your journeys</p>
 
             <!-- Form to search buses -->
-            <form class="search-form" method="POST" th:action="@{/searchBuses}">
+            <form class="search-form" method="GET" th:action="@{/user/buses}">
                 <label for="from-location">From</label>
                 <select id="from-location" name="fromLocation" required>
                     <option value="">Select City</option>
