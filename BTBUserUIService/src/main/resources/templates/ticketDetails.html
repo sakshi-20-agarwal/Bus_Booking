@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Ticket Details</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+		/* Overall page styling */
+		body {
+			font-family: 'Poppins', sans-serif;
+			background-color: #f8f9fa;
+			margin: 0;
+			padding: 0;
+			color: #333;
+		}
+
+		/* Navbar Styles */
+		.navbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background: #d84e55;
+			padding: 15px 50px;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			position: sticky;
+			top: 0;
+			z-index: 1000; 
+		}
+
+		.logo img {
+			height: 50px;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 20px;
+			margin-left: auto;
+			padding-right: 2%;
+		}
+
+		.nav-links a {
+			text-decoration: none;
+			color: white;
+			font-size: 16px;
+			font-weight: 500;
+			transition: 0.3s;
+		}
+
+		.nav-links a:hover {
+			color: #f8d7da;
+		}
+
+		/* Profile Dropdown */
+		.profile-menu {
+			position: relative;
+			cursor: pointer;
+		}
+
+		.profile-icon {
+			color: white;
+			font-size: 20px;
+			background: rgba(255, 255, 255, 0.2);
+			padding: 8px;
+			border-radius: 50%;
+			transition: 0.3s;
+		}
+
+		.profile-icon:hover {
+			background: rgba(255, 255, 255, 0.3);
+		}
+
+		.dropdown {
+			display: none;
+			position: absolute;
+			right: 0;
+			background: white;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			border-radius: 5px;
+			overflow: hidden;
+			width: 150px;
+		}
+
+		.dropdown a {
+			display: block;
+			padding: 12px;
+			text-decoration: none;
+			color: #333;
+			font-size: 14px;
+			transition: 0.3s;
+		}
+
+		.dropdown a:hover {
+			background: #f8f9fa;
+		}
+
+		.profile-menu:hover .dropdown {
+			display: block;
+		}
+
+		/* Main container for the ticket details */
+		.ticket-container {
+			max-width: 800px;
+			margin: 50px auto;
+			padding: 30px;
+			background-color: #ffffff;
+			border-radius: 8px;
+			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		h1 {
+			text-align: center;
+			color: #333;
+			margin-bottom: 30px;
+		}
+
+		/* Styling for ticket sections */
+		.ticket-section {
+			margin-bottom: 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.ticket-section p {
+			font-size: 16px;
+			margin: 8px 0;
+		}
+
+		.ticket-section label {
+			font-weight: bold;
+			display: inline-block;
+			width: 180px;
+			color: #555;
+		}
+
+		.ticket-section span {
+			font-size: 16px;
+			color: #555;
+		}
+
+		/* Styling for the From City and To City section with arrow */
+		.from-to-section {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.arrow {
+			font-size: 40px; /* Bigger size */
+			    color: #d84e55; /* You can change the color */
+			    margin: 0 10px;
+		}
+
+		/* Error message style */
+		.error-message {
+			background-color: #f8d7da;
+			color: #721c24;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #f5c6cb;
+			margin-bottom: 20px;
+		}
+
+		/* Ticket buttons */
+		.ticket-actions {
+			text-align: center;
+			margin-top: 30px;
+		}
+
+		.ticket-actions button {
+			background-color: #ff6f61;
+			color: white;
+			border: none;
+			padding: 12px 20px;
+			font-size: 16px;
+			cursor: pointer;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+
+		.ticket-actions button:hover {
+			background-color: #ff4b3a;
+		}
+
+		/* Fallback message if no ticket found */
+		.no-ticket-message {
+			text-align: center;
+			font-size: 18px;
+			color: #ff6f61;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="navbar">
+		<!-- Logo -->
+		<div class="logo">
+			<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+		</div>
+
+		<!-- Navigation Links -->
+		<div class="nav-links">
+			<a th:href="@{/index}">Home</a>
+			<a th:href="@{/mybookings}">My Bookings</a>
+			<a th:href="@{/contact}">Contact</a>
+		</div>
+
+		<!-- Profile Dropdown -->
+		<div class="profile-menu">
+			<i class="fa-solid fa-user profile-icon"></i>
+			<div class="dropdown">
+				<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
+				<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+				<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="ticket-container">
+		<h1>Ticket Details</h1>
+
+		<!-- Display error message if ticket is null -->
+		<div th:if="${errorMessage != null}" class="error-message">
+			<p th:text="${errorMessage}"></p>
+		</div>
+
+		<!-- Only display ticket details if ticket is not null -->
+		<div th:if="${ticket != null}">
+			<div class="ticket-section">
+				<label>Booking ID:</label>
+				<span th:text="${ticket.bookingId}"></span>
+			</div>
+
+			<div class="ticket-section">
+				<label>Customer Name:</label>
+				<span th:text="${ticket.customerName}"></span>
+			</div>
+
+			<div class="ticket-section">
+				<label>Seat Number:</label>
+				<span th:text="${ticket.seatNumber}"></span>
+			</div>
+
+			<div class="ticket-section">
+				<label>Bus Name:</label>
+				<span th:text="${ticket.busName}"></span>
+			</div>
+
+			<div class="ticket-section from-to-section">
+				<div>
+					<label>From City:</label>
+					<span th:text="${ticket.fromCity}"></span>
+				</div>
+				<span class="arrow">→</span>
+				<div>
+					<label>To City:</label>
+					<span th:text="${ticket.toCity}"></span>
+				</div>
+			</div>
+
+			<div class="ticket-section">
+				<label>Departure Time:</label>
+				<span th:text="${ticket.departureTime}"></span>
+			</div>
+
+			<div class="ticket-section">
+				<label>Arrival Time:</label>
+				<span th:text="${ticket.arrivalTime}"></span>
+			</div>
+
+			<div class="ticket-section">
+				<label>Fare:</label>
+				<span th:text="${ticket.fare}"></span>
+			</div>
+
+			<div class="ticket-actions">
+				<button onclick="window.print()">Print Ticket</button>
+			</div>
+		</div>
+
+		<!-- If ticket is null, display a fallback message -->
+		<div th:if="${ticket == null}" class="no-ticket-message">
+			<p>No ticket details available.</p>
+		</div>
+	</div>
+
+</body>
+
+</html>
