@@ -81,6 +81,19 @@ public class CustomerService {
             throw new RuntimeException("Error during login: " + e.getMessage());
 
         }
+    }
+        
+        // Fetch customer details by customer ID (to use in session after login)
+        public CustomerModel getCustomerDetails(Long customerId) {
+            String url = CUSTOMER_SERVICE_URL + "/{customerId}";
+            try {
+                ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.GET, null, CustomerModel.class, customerId);
+                return response.getBody();  // Return customer details if found
+            } catch (Exception e) {
+                // Handle errors (e.g., customer not found, server error, etc.)
+                throw new RuntimeException("Error fetching customer details: " + e.getMessage());
+            }
+        
 
     }
 

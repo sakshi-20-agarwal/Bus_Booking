@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+        }
+        .success {
+            background-color: #2ecc71;
+        }
+        .failure {
+            background-color: #e74c3c;
+        }
+        .ticket-details {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Payment Status</h2>
+
+        <!-- Display Payment Status -->
+        <div th:if="${paymentStatus}" class="message" th:classappend="${paymentStatus == 'success' ? 'success' : 'failure'}">
+            <p th:text="${paymentStatus == 'success' ? 'Payment Successful!' : 'Payment Failed. Please try again.'}"></p>
+        </div>
+
+        <!-- If Payment is Successful, Display Ticket Details -->
+        <div th:if="${paymentStatus == 'success'}" class="ticket-details">
+            <h3>Ticket Details</h3>
+            <p><strong>Customer Name:</strong> <span th:text="${customerName}"></span></p>
+            <p><strong>Seat Number:</strong> <span th:text="${seatNumber}"></span></p>
+            <p><strong>Bus Details:</strong> <span th:text="${busDetails}"></span></p>
+        </div>
+
+        <a href="/boardDrop" style="text-decoration: none; color: #27ae60; font-size: 18px;">Back to Boarding/Dropping Page</a>
+    </div>
+
+</body>
+</html>
