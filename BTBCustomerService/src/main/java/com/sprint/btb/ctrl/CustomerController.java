@@ -59,4 +59,10 @@ public class CustomerController {
 	public CustomerModel getCustomerById(@PathVariable String email) throws BadRequestException {
 		return customerService.getCustomerByEmailId(email);
 	}
+	
+	@GetMapping("/exists/{customerId}")
+	public boolean checkIfCustomerExists(@PathVariable int customerId) throws BadRequestException {
+	    return customerService.getCustomerById(customerId) != null;
+	}
+
 }

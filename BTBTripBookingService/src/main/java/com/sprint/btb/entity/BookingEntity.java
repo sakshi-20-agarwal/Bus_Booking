@@ -30,6 +30,9 @@ public class BookingEntity {
 
 	@Column(name = "seat_number", nullable = false)
 	private Integer seatNumber;
+	
+	@Column(name = "customer_id")
+	private Integer customerId;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -44,11 +47,12 @@ public class BookingEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BookingEntity(int bookingId, TripEntity trip, Integer seatNumber, BookingStatus status) {
+	public BookingEntity(int bookingId, TripEntity trip, Integer seatNumber, Integer customerId, BookingStatus status) {
 		super();
 		this.bookingId = bookingId;
 		this.trip = trip;
 		this.seatNumber = seatNumber;
+		this.customerId = customerId;
 		this.status = status;
 	}
 
@@ -84,10 +88,20 @@ public class BookingEntity {
 		this.status = status;
 	}
 
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+
 	@Override
 	public String toString() {
-		return "BookingEntity [bookingId=" + bookingId + ", trip=" + trip + ", seatNumber=" + seatNumber + ", status="
-				+ status + "]";
+		return "BookingEntity [bookingId=" + bookingId + ", trip=" + trip + ", seatNumber=" + seatNumber
+				+ ", customerId=" + customerId + ", status=" + status + "]";
 	}
+
+	
 
 }

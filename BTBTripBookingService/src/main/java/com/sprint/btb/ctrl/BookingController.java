@@ -69,4 +69,10 @@ public class BookingController {
 	    boolean isAvailable = bookingService.isSeatAvailable(tripId, seatNumber);
 	    return isAvailable;
 	}
+	
+	// http://localhost:9092/api/bookings/customer/5
+	@GetMapping("/customer/{customerId}")
+	public Set<BookingModel> fetchBookingsByCustomerId(@PathVariable int customerId) throws BadRequestException {
+	    return bookingService.getBookingsByCustomerId(customerId);
+	}
 }

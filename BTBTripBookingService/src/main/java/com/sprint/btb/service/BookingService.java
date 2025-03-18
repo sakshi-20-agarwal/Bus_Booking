@@ -14,8 +14,9 @@ public interface BookingService {
 	public String cancelBooking(int bookingId) throws BadRequestException;
 	public BookingModel updateBooking(int bookingId, BookingModel bookingModel) throws BadRequestException;
 	public BookingModel getBookingByTripAndSeatNumber(int tripId, Integer seatNumber) throws BadRequestException;
-	//public Set<BookingModel> getBookingsByCustomerId(int customerId) throws BadRequestException;
 	boolean isSeatAvailable(int tripId, int seatNumber);
+	public boolean isCustomerValid(int customerId);
+	public Set<BookingModel> getBookingsByCustomerId(int customerId) throws BadRequestException;
 
 
 }
