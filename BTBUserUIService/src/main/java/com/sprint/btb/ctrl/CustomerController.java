@@ -129,5 +129,26 @@ public class CustomerController {
 	    return new ModelAndView("redirect:/customerBookings?customerId=" + customerId);
 	}
 	
+	private static final String CUSTOMER_SERVICE_URL = "http://localhost:9092/api/customers"; 
 
+	@GetMapping("/profile")
+    public String showProfilePage(@RequestParam(required = false) String email, Model model) {
+        if (email != null && !email.isEmpty()) {
+            try {
+                CustomerModel customer = restTemplate.getForObject(CUSTOMER_SERVICE_URL + "/get/{email}", CustomerModel.class, email);
+
+                if (customer != null) {
+                    model.addAttribute("customerName", customer.getName());
+                    model.addAttribute("customerEmail", customer.getEmail());
+                    model.addAttribute("customerPhone", customer.getPhone());
+                } else {
+                    model.addAttribute("error", "Customer not found.");
+                }
+            } catch (Exception e) {
+                model.addAttribute("error", "Error fetching profile data.");
+            }
+        }
+        return "profile";  
+
+}
 }
