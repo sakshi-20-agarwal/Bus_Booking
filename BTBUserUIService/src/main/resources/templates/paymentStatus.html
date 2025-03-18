@@ -1,103 +1,118 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Bus Ticket</title>
-<style>
+    <meta charset="UTF-8">
+    <title>Payment Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            background-color: #e0e0e0;
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
-        .ticket-container {
-            background-color: #fff;
-            width: 500px;
+
+        .container {
+            background-color: #2ecc71;
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
         }
-        .ticket-header {
-            background-color: #d84e55;
+
+        h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .status-message {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #e74c3c;
             color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            padding: 14px 24px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .ticket-body {
-            padding: 15px;
+
+        button:hover {
+            background-color: #c0392b;
         }
-        .row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .label {
-            font-weight: bold;
-            color: #333;
-        }
-        .value {
-            color: #555;
-        }
-        .ticket-footer {
-            text-align: center;
-            padding: 10px;
-            border-top: 1px dashed #ccc;
-            margin-top: 10px;
+
+        .footer {
+            margin-top: 20px;
             font-size: 14px;
+            color: #fff;
         }
-</style>
+
+        .footer a {
+            color: #f1c40f;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="ticket-container">
-<div class="ticket-header">Bus Ticket</div>
-<div class="ticket-body">
-<div class="row">
 
-<!--	<span class="label">Passenger:</span>
-<span class="value" th:text="${ticket.name}"></span>
-</div>-->
+    <div class="container">
+        <h2>Payment Status</h2>
+        
+        <!-- Display Success or Failure Message -->
+        <div class="status-message" th:text="'Payment ' + ${paymentStatus}"></div>
 
-<div class="row">
-<span class="label">From:</span>
-<span class="value" th:text="${ticket.fromCity}"></span>
-</div>
-<div class="row">
-<span class="label">To:</span>
-<span class="value" th:text="${ticket.toCity}"></span>
-</div>
-<div class="row">
-<span class="label">Departure:</span>
-<span class="value" th:text="${#temporals.format(ticket.departureTime, 'dd MMM yyyy HH:mm')}"></span>
-</div>
-<div class="row">
-<span class="label">Arrival:</span>
-<span class="value" th:text="${#temporals.format(ticket.arrivalTime, 'dd MMM yyyy HH:mm')}"></span>
-</div>
-<div class="row">
-<span class="label">Bus Name:</span>
-<span class="value" th:text="${ticket.busName}"></span>
-</div>
-<div class="row">
-<span class="label">Seat Number:</span>
-<span class="value" th:text="${ticket.seatNumber}"></span>
-</div>
-<div class="row">
-<span class="label">Fare Paid:</span>
-<span class="value" th:text="'₹' + ${ticket.amountPaid}"></span>
-</div>
-<div class="row">
-<span class="label">Payment Status:</span>
-<span class="value" th:text="${ticket.paymentStatus}" style="color: green;"></span>
-</div>
-</div>
-<div class="ticket-footer">
-<span>Thank you for booking with us!</span>
-</div>
-</div>
+        <!-- Show Details if Payment is Successful -->
+        <div th:if="${paymentStatus == 'success'}">
+           <!-- <div class="details">
+                <p>Customer Name: <span th:text="${customerName}"></span></p>
+                <p>Seat Number: <span th:text="${seatNumber}"></span></p>
+                <p>Bus Details: <span th:text="${busDetails}"></span></p>
+            </div>-->
+			<a th:href="@{/tickets/ticketdetails?bookingId=${bookingId}}" style="text-decoration: none;">
+			    <button>View Your Ticket</button>
+			</a>
+        </div>
+
+        <!-- Show Failure Message if Payment Failed -->
+        <div th:if="${paymentStatus == 'failure'}">
+            <p>Sorry, your payment was unsuccessful. Please try again.</p>
+            <!-- Link to go back to the select points page -->
+            <a th:href="@{/boardDrop}" style="text-decoration: none;">
+                <button>Go Back and Select Points Again</button>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Need Help? <a href="#">Contact Us</a></p>
+        </div>
+    </div>
+
 </body>
 </html>

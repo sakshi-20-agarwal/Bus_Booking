@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 		/* Overall page styling */
 		body {
 			font-family: 'Poppins', sans-serif;
@@ -25,7 +26,7 @@
 			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 			position: sticky;
 			top: 0;
-			z-index: 1000; 
+			z-index: 1000;
 		}
 
 		.logo img {
@@ -147,9 +148,11 @@
 		}
 
 		.arrow {
-			font-size: 40px; /* Bigger size */
-			    color: #d84e55; /* You can change the color */
-			    margin: 0 10px;
+			font-size: 40px;
+			/* Bigger size */
+			color: #d84e55;
+			/* You can change the color */
+			margin: 0 10px;
 		}
 
 		/* Error message style */
@@ -199,14 +202,12 @@
 			<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
 		</div>
 
-		<!-- Navigation Links -->
 		<div class="nav-links">
 			<a th:href="@{/index}">Home</a>
 			<a th:href="@{/mybookings}">My Bookings</a>
 			<a th:href="@{/contact}">Contact</a>
 		</div>
 
-		<!-- Profile Dropdown -->
 		<div class="profile-menu">
 			<i class="fa-solid fa-user profile-icon"></i>
 			<div class="dropdown">
@@ -220,12 +221,10 @@
 	<div class="ticket-container">
 		<h1>Ticket Details</h1>
 
-		<!-- Display error message if ticket is null -->
 		<div th:if="${errorMessage != null}" class="error-message">
 			<p th:text="${errorMessage}"></p>
 		</div>
 
-		<!-- Only display ticket details if ticket is not null -->
 		<div th:if="${ticket != null}">
 			<div class="ticket-section">
 				<label>Booking ID:</label>
@@ -279,7 +278,6 @@
 			</div>
 		</div>
 
-		<!-- If ticket is null, display a fallback message -->
 		<div th:if="${ticket == null}" class="no-ticket-message">
 			<p>No ticket details available.</p>
 		</div>

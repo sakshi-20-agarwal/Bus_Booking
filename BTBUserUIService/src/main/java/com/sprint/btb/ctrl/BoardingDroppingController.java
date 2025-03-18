@@ -52,29 +52,29 @@ public class BoardingDroppingController {
     }
  
     
-//    @PostMapping("/proceed-to-payment")
-//    public ModelAndView proceedToPayment(@RequestParam String boardingAddress, 
-//                                          @RequestParam String droppingAddress) {
-//        boolean paymentSuccessful = Math.random() > 0.5; 
-//        
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        if (paymentSuccessful) {
-//            modelAndView.addObject("paymentStatus", "success");
+    @PostMapping("/proceed-to-payment")
+    public ModelAndView proceedToPayment(@RequestParam String boardingAddress, 
+                                          @RequestParam String droppingAddress) {
+        boolean paymentSuccessful = Math.random() > 0.5; 
+        
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (paymentSuccessful) {
+            modelAndView.addObject("paymentStatus", "success");
 //            modelAndView.addObject("customerName", "Pranjal");
 //            modelAndView.addObject("seatNumber", "A1");
 //            modelAndView.addObject("busDetails", "Sangitam, Departure: 10:00 PM");
-//        } else {
-//            modelAndView.addObject("paymentStatus", "failure");
-//        }
-//
-//        modelAndView.setViewName("paymentStatus");  
-//        
-//        return modelAndView;
-//    }
+        } else {
+            modelAndView.addObject("paymentStatus", "failure");
+        }
+
+        modelAndView.setViewName("paymentStatus");  
+        
+        return modelAndView;
+    }
     
-    @GetMapping("/proceed-to-payment")
-    public ModelAndView proceedToPayment(@RequestParam ("bookingId")int bookingId) {
+    @GetMapping("/ticket")
+    public ModelAndView getTicket(@RequestParam ("bookingId")int bookingId) {
         BookingModel booking = restTemplate.getForObject(
             "http://localhost:9093/api/bookings/" + bookingId, BookingModel.class);
      
