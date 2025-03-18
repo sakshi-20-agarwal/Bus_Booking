@@ -30,9 +30,13 @@ public class RouteController {
     private RouteService routeService;
     
     @GetMapping("/index")
-    public String ShowIndexPage(Model model) {
-    	return "index";
+    public String showIndexPage(Model model) {
+        // Pass the list of RouteModel objects to the template
+        List<RouteModel> routes = routeService.getAllRoutes();
+        model.addAttribute("routes", routes);  // Ensure this is a list of RouteModel
+        return "index";  // Ensure this corresponds to templates/index.html
     }
+    
 
     @GetMapping("/home")
     public String showHomePage(Model model) {
