@@ -2,11 +2,10 @@ package com.sprint.btb.model;
 
 import java.time.LocalDateTime;
 
-
 public class TripModel {
 	private int tripId;
-	private int routeId;
-	private int busId;
+	private RouteModel route;
+	private BusModel bus;
 	private int boardingId;
 	private int droppingId;
 	private LocalDateTime departureTime;
@@ -14,17 +13,11 @@ public class TripModel {
 	private Integer availableSeats;
 	private float fare;
 	private LocalDateTime tripDate;
-	public TripModel() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public TripModel(int tripId, int routeId, int busId, int boardingId, int droppingId,
-			LocalDateTime departureTime, LocalDateTime arrivalTime, Integer availableSeats, float fare,
-			LocalDateTime tripDate) {
+	
+	public TripModel(int tripId, int boardingId, int droppingId, LocalDateTime departureTime,
+			LocalDateTime arrivalTime, Integer availableSeats, float fare, LocalDateTime tripDate) {
 		super();
 		this.tripId = tripId;
-		this.routeId = routeId;
-		this.busId = busId;
 		this.boardingId = boardingId;
 		this.droppingId = droppingId;
 		this.departureTime = departureTime;
@@ -39,17 +32,20 @@ public class TripModel {
 	public void setTripId(int tripId) {
 		this.tripId = tripId;
 	}
-	public int getRoute() {
-		return routeId;
+	public RouteModel getRoute() {
+	    return route;
 	}
-	public void setRoute(int routeId) {
-		this.routeId = routeId;
+
+	public void setRoute(RouteModel route) {
+	    this.route = route;
 	}
-	public int getBus() {
-		return busId;
+
+	public BusModel getBus() {
+	    return bus;
 	}
-	public void setBus(int busId) {
-		this.busId = busId;
+
+	public void setBus(BusModel bus) {
+	    this.bus = bus;
 	}
 	public int getBoardingId() {
 		return boardingId;
@@ -95,8 +91,9 @@ public class TripModel {
 	}
 	@Override
 	public String toString() {
-		return "TripModel [tripId=" + tripId + ", route=" + routeId + ", bus=" + busId + ", boardingId=" + boardingId
-				+ ", droppingId=" + droppingId + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime
-				+ ", availableSeats=" + availableSeats + ", fare=" + fare + ", tripDate=" + tripDate + "]";
+		return "TripModel [tripId=" + tripId + ", boardingId="
+				+ boardingId + ", droppingId=" + droppingId + ", departureTime=" + departureTime + ", arrivalTime="
+				+ arrivalTime + ", availableSeats=" + availableSeats + ", fare=" + fare + ", tripDate=" + tripDate
+				+ "]";
 	}
 }

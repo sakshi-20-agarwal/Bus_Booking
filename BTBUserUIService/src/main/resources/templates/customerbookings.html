@@ -2,13 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Available Trips</title>
+	<title>Customer Bookings | RedBus Style</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	<style>
 		/* Import Google Font */
 		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-		/* General Styles */
 		body {
 			font-family: 'Poppins', sans-serif;
 			background-color: #f8f9fa;
@@ -16,7 +15,7 @@
 			padding: 0;
 		}
 
-		/* Navbar Styles */
+		/* Navbar */
 		.navbar {
 			display: flex;
 			justify-content: space-between;
@@ -25,10 +24,6 @@
 			padding: 15px 50px;
 			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 			position: sticky;
-		}
-
-		.logo img {
-			height: 50px;
 		}
 
 		.nav-links {
@@ -48,6 +43,25 @@
 
 		.nav-links a:hover {
 			color: #f8d7da;
+		}
+
+		.logo img {
+			height: 50px;
+		}
+
+		.container {
+			width: 80%;
+			margin: 30px auto;
+			background: white;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+		}
+
+		h2 {
+			color: #d84e55;
+			text-align: center;
+			margin-bottom: 15px;
 		}
 
 		/* Profile Dropdown */
@@ -97,115 +111,76 @@
 			display: block;
 		}
 
-		/* Main Container */
-		.container {
-			width: 85%;
-			margin: 50px auto;
-			background: white;
-			padding: 25px;
-			border-radius: 15px;
-			box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
-			overflow: hidden;
-		}
-
-		.title {
-			text-align: center;
-			color: #d84e55;
-			font-size: 28px;
-			font-weight: 600;
-			margin-bottom: 20px;
-			letter-spacing: 1px;
-		}
 
 		/* Table Styles */
-		.trip-table {
+		table {
 			width: 100%;
 			border-collapse: collapse;
-			background: white;
+			margin-top: 15px;
 			border-radius: 10px;
-			overflow: hidden;
 		}
 
-		.trip-table th {
-			background: #d84e55;
-			color: white;
+		th,
+		td {
 			padding: 14px;
 			text-align: left;
-			font-size: 16px;
-			font-weight: 500;
-		}
-
-		.trip-table td {
-			padding: 12px;
-			font-size: 14px;
 			border-bottom: 1px solid #ddd;
-			color: #333;
 		}
 
-		.trip-table tr:nth-child(even) {
+		th {
+			background-color: #d84e55;
+			color: white;
+		}
+
+		tr:nth-child(even) {
 			background-color: #fdf2f2;
 		}
 
-		.trip-table tr:last-child td {
-			border-bottom: none;
+		tr:hover {
+			background-color: #f1f1f1;
 		}
 
-		/* Book Button */
-		.book-button {
-			display: inline-block;
-			padding: 10px 16px;
-			background-color: #d84e55;
-			color: white;
-			text-decoration: none;
-			font-weight: 500;
-			border-radius: 8px;
-			transition: background 0.3s, transform 0.2s;
-			box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-			text-align: center;
+		/* Buttons */
+		.btn {
+			padding: 8px 14px;
+			border: none;
+			cursor: pointer;
+			border-radius: 6px;
 			font-size: 14px;
+			font-weight: 500;
+			transition: 0.3s;
+			display: inline-block;
+			text-align: center;
 		}
 
-		.book-button:hover {
-			background-color: #b63e45;
+		.cancel-btn {
+			background-color: #ff4444;
+			color: white;
+		}
+
+		.review-btn {
+			background-color: #28a745;
+			color: white;
+		}
+
+		.btn:hover {
 			transform: scale(1.05);
+			opacity: 0.9;
 		}
 
-		.book-button i {
-			margin-right: 6px;
+		.error,
+		.success {
+			text-align: center;
+			font-size: 16px;
+			margin-top: 10px;
 		}
 
-		/* Responsive */
-		@media screen and (max-width: 768px) {
-			.container {
-				width: 95%;
-			}
+		.error {
+			color: red;
+		}
 
-			.trip-table th,
-			.trip-table td {
-				padding: 10px;
-				font-size: 13px;
-			}
-
-			.book-button {
-				padding: 8px 12px;
-				font-size: 12px;
-			}
-
-			.navbar {
-				padding: 15px 20px;
-			}
-
-			.logo img {
-				height: 40px;
-			}
-
-			.nav-links {
-				gap: 15px;
-			}
-
-			.profile-icon {
-				font-size: 18px;
-			}
+		.success {
+			color: green;
 		}
 	</style>
 </head>
@@ -219,10 +194,9 @@
 			<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
 		</div>
 
-		<!-- Navigation Links -->
 		<div class="nav-links">
 			<a th:href="@{/index}">Home</a>
-			<a th:href="@{/customerbookings}">My Bookings</a>
+			<a th:href="@{/mybookings}">My Bookings</a>
 			<a th:href="@{/contact}">Contact</a>
 		</div>
 
@@ -231,43 +205,58 @@
 			<i class="fa-solid fa-user profile-icon"></i>
 			<div class="dropdown">
 				<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
-				<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+				<a th:href="@{/customerbookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
 				<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 			</div>
 		</div>
 	</div>
 
-	<!-- Main Content -->
+	<!-- Booking Container -->
 	<div class="container">
-		<h2 class="title">Available Trips</h2>
+		<h2>Bookings for Customer ID: <span th:text="${customerId}"></span></h2>
 
-		<table class="trip-table">
+		<!-- Error Message -->
+		<div th:if="${error}" class="error">
+			<p th:text="${error}"></p>
+		</div>
+
+		<table>
 			<thead>
 				<tr>
+					<th>From</th>
+					<th>To</th>
+					<th>Departure Time</th>
 					<th>Bus Name</th>
-					<th>Bus Type</th>
-					<th>Departure</th>
-					<th>Arrival</th>
-					<th>Fare</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="trip : ${trips}">
-					<td th:text="${trip.busName}"></td>
-					<td th:text="${trip.busType}"></td>
-					<td th:text="${trip.departureTime}"></td>
-					<td th:text="${trip.arrivalTime}"></td>
-					<td th:text="'₹' + ${trip.fare}"></td>
+				<tr th:each="booking : ${bookings}">
+					<td th:text="${booking.fromCity}"></td>
+					<td th:text="${booking.toCity}"></td>
+					<td th:text="${booking.departureTime}"></td>
+					<td th:text="${booking.busName}"></td>
 					<td>
-						<a th:href="@{/seatbooking/{tripId}/{busId}(tripId=${trip.tripId}, busId=${trip.busId})}"
-							class="book-button">
-							<i class="fa-solid fa-ticket"></i> Book Now
-						</a>
+						<!-- Cancel Button for Future Bookings -->
+						<form th:if="${!booking.pastBooking}" action="/cancelBooking" method="post">
+							<input type="hidden" name="bookingId" th:value="${booking.bookingId}" />
+							<button type="submit" class="btn cancel-btn">Cancel</button>
+						</form>
+
+						<!-- Review Button for Past Bookings -->
+						<form th:if="${booking.pastBooking}" action="/reviewBooking" method="get">
+							<input type="hidden" name="bookingId" th:value="${booking.bookingId}" />
+							<button type="submit" class="btn review-btn">Review</button>
+						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+
+		<!-- Success Message -->
+		<div th:if="${success}" class="success">
+			<p th:text="${success}"></p>
+		</div>
 	</div>
 
 </body>
