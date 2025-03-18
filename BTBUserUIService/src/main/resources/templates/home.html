@@ -1,26 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookBus.com</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/RedBus_Logo.svg/2560px-RedBus_Logo.svg.png" alt="redBus Logo">
-            </div>
-            <ul class="nav-links">
-                <li><a th:href="@{/login}">Login</a></li>
-                <li><a th:href="@{/register}">Register</a></li>
-            </ul>
-        </nav>
-    </header>
+
+	<!-- Navbar -->
+		<div class="navbar">
+			<!-- Logo -->
+			<div class="logo">
+				<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+			</div>
+	 
+			<!-- Navigation Links -->
+			<div class="nav-links">
+				<a th:href="@{/login}">Login</a>
+				           <a th:href="@{/register}">Register</a>
+			</div>
+	 
+			<!-- Profile Dropdown -->
+			<div class="profile-menu">
+				<i class="fa-solid fa-user profile-icon"></i>
+				<div class="dropdown">
+					<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
+					<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+					<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+			</div>
+		</div>
+	 
+	 
+   
 
     <!-- Hero Section -->
     <section class="hero">
@@ -50,12 +64,12 @@
 
             <!-- Display Message if User Needs to Log In -->
             <div th:if="${message}">
-                <div class="alert alert-warning">
+                <div class="alert alert-warning" style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 5px; text-align: center;">
                     <p th:text="${message}"></p>
                 </div>
             </div>
         </div>
     </section>
-</body>
 
+</body>
 </html>

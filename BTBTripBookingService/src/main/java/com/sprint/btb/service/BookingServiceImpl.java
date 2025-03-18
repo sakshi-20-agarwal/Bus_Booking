@@ -1,11 +1,14 @@
 package com.sprint.btb.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.sprint.btb.entity.BookingEntity;
 import com.sprint.btb.entity.TripEntity;
@@ -26,9 +29,16 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	TripRepository tripRepo;
+	
+	@Autowired
+    private RestTemplate restTemplate; 
 
 	@Override
 	public BookingModel createBooking(BookingModel bookingModel) throws BadRequestException {
+		if (!isCustomerValid(bookingModel.getCustomerId())) {
+	        throw new BadRequestException("Customer with ID " + bookingModel.getCustomerId() + " not found.");
+	    }
+		
 		Optional<TripEntity> optionalTrip = tripRepo.findById(bookingModel.getTripId());
 
 		if (optionalTrip.isEmpty()) {
@@ -55,10 +65,12 @@ public class BookingServiceImpl implements BookingService {
 			bookingRepo.updateBookingStatus(bookingModel.getTripId(), bookingModel.getSeatNumber(),
 					BookingEntity.BookingStatus.Booked);
 			bookedSeat.setStatus(BookingEntity.BookingStatus.Booked);
+			bookedSeat.setCustomerId(bookingModel.getCustomerId()); 
 		} else {
 			BookingEntity newBooking = new BookingEntity();
 			newBooking.setTrip(trip);
 			newBooking.setSeatNumber(bookingModel.getSeatNumber());
+			newBooking.setCustomerId(bookingModel.getCustomerId()); 
 			newBooking.setStatus(BookingEntity.BookingStatus.Booked);
 			bookingRepo.save(newBooking);
 		}
@@ -117,13 +129,13 @@ public class BookingServiceImpl implements BookingService {
 		BookingEntity bookingEntity = optionalBooking.get();
 		TripEntity trip = bookingEntity.getTrip();
 
-		// If the seat is already available, no need to cancel
 		if (bookingEntity.getStatus() == BookingEntity.BookingStatus.Available) {
 			return "Booking is already canceled.";
 		}
 
-		// Update the status to Available
-		bookingRepo.updateBookingStatus(bookingId, BookingEntity.BookingStatus.Available);
+		bookingEntity.setStatus(BookingEntity.BookingStatus.Available);
+		bookingEntity.setCustomerId(null);
+		bookingRepo.save(bookingEntity);
 
 		trip.setAvailableSeats(trip.getAvailableSeats() + 1);
 		tripRepo.save(trip);
@@ -192,9 +204,51 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public boolean isSeatAvailable(int tripId, int seatNumber) {
-	    Optional<BookingEntity> existingBooking = bookingRepo.findByTripIdAndSeatNumber(tripId, seatNumber);
-	    
-	    return existingBooking.isEmpty() || existingBooking.get().getStatus() == BookingEntity.BookingStatus.Available;
+		  Optional<BookingEntity> existingBooking = bookingRepo.findByTripIdAndSeatNumber(tripId, seatNumber);
+
+		    if (existingBooking.isPresent()) {
+		        BookingEntity booking = existingBooking.get();
+		        System.out.println("Seat Status: " + booking.getStatus());
+		        System.out.println("Customer ID: " + booking.getCustomerId());
+		        return booking.getStatus() == BookingEntity.BookingStatus.Available && booking.getCustomerId() == null;
+		    }
+		    
+		    return true;
 	}
+	
+	//------------------------------------------------------------------------------------------
+	
+	public boolean isCustomerValid(int customerId) {
+	    String url = "http://localhost:9092/api/customers/exists/" + customerId;
+	    System.out.println("Checking customer existence: " + url);
+	    try {
+	    	 Boolean exists = restTemplate.getForObject(url, Boolean.class);
+	         System.out.println("Response from Customer Service: " + exists);
+	         return Boolean.TRUE.equals(exists);
+	    } catch (RestClientException e) {
+	    	System.err.println("Error calling Customer Service: " + e.getMessage());
+	        return false; 
+	    }
+	}
+
+	//------------------------------------------------------------------------------------------
+	public Set<BookingModel> getBookingsByCustomerId(int customerId) throws BadRequestException {
+	   
+	    if (!isCustomerValid(customerId)) {
+	        throw new BadRequestException("Customer with ID " + customerId + " not found");
+	    }
+
+	    Set<BookingEntity> customerBookings = bookingRepo.findByCustomerId(customerId);
+
+	    Set<BookingModel> bookingModels = new HashSet<>();
+	    for (BookingEntity booking : customerBookings) {
+	        BookingModel model = BTBUtil.convertBookingEntityToModel(booking);
+	        bookingModels.add(model);
+	    }
+	    
+	    return bookingModels;
+	}
+
+	
 
 }

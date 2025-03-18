@@ -131,7 +131,7 @@ public class BTBUtil {
 	}
 
 	public static BookingModel convertBookingEntityToModel(BookingEntity be) {
-		return new BookingModel(be.getBookingId(), be.getSeatNumber(), be.getTrip().getTripId(), be.getStatus()
+		return new BookingModel(be.getBookingId(), be.getSeatNumber(), be.getTrip().getTripId(), be.getStatus(), be.getCustomerId()
 
 		);
 	}

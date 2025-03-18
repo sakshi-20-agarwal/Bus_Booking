@@ -42,7 +42,7 @@ public class SecurityConfig {
         return http
                 .csrf(customizer -> customizer.disable()) // Disable CSRF (useful for stateless applications, can be enabled for stateful)
                 .authorizeRequests(request -> request
-                        .requestMatchers("/api/customers/create", "/api/customers/login").permitAll() // Allow public access to create and login endpoints
+                        .requestMatchers("/api/customers/create", "/api/customers/login" , "/api/customers/exists/**").permitAll() // Allow public access to create and login endpoints
                         .anyRequest().authenticated() // All other requests require authentication
                 )
                 .formLogin(Customizer.withDefaults()) // Default form login

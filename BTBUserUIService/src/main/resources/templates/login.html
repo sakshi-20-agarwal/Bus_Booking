@@ -1,36 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-
+	
+	<!-- Navbar -->
+			<div class="navbar">
+				<!-- Logo -->
+				<div class="logo">
+					<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+				</div>
+		 
+				<!-- Navigation Links -->
+				<div class="nav-links">
+					<a th:href="@{/home}">Home</a>
+				</div>
+		 
+				
+			</div>
     <div class="container">
-        <h2>Login</h2>
-        <form action="/login" method="POST">
-            <!-- Display error message if exists -->
-            <div th:if="${error != null}" class="error-message" style="color: red;">
-                <p th:text="${error}"></p>
-            </div>
-            
+        <h1>Login</h1>
+        <form th:action="@{/login}" method="POST">
+			<!-- Display error message if exists -->
+					            <div th:if="${error != null}" class="error-message" style="color: red;">
+					                <p th:text="${error}"></p>
+					            </div>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required/>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="Enter your password">
-            </div>
-            <div class="form-group">
-                <button type="submit">Login</button>
-            </div>
-            <p>Don't have an account? <a href="/register">Register here</a></p>
-            <p>Back To <a href="/home">Home</a></p>
-        </form>
-    </div>
 
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required/>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+		
+        <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+    </div>
 </body>
 </html>
