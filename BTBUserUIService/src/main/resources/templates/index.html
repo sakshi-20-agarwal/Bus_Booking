@@ -1,34 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookBus.com</title>
-    <link rel="stylesheet" href="css/index.css"> <!-- Link to the external CSS -->
+    <link rel="stylesheet" href="index.css"> <!-- Link to the external CSS -->
 </head>
- 
+
 <body>
- 
-    <!-- Navigation Bar -->
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/RedBus_Logo.svg/2560px-RedBus_Logo.svg.png" alt="redBus Logo">
-            </div>
-            <ul class="nav-links">
-                <!-- Profile Button that Opens Sidebar -->
-                <li><button class="sidebar-toggle-btn" onclick="document.getElementById('mySidebar').style.width = '250px'">Profile</button></li>
-            </ul>
-        </nav>
-    </header>
- 
+
+	<!-- Navbar -->
+		<div class="navbar">
+			<!-- Logo -->
+			<div class="logo">
+				<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+			</div>
+	 
+			<!-- Navigation Links -->
+			<div class="nav-links">
+				<a th:href="@{/}">Home</a>
+				<a th:href="@{/mybookings}">My Bookings</a>
+				<a th:href="@{/contact}">Contact</a>
+			</div>
+	 
+			<!-- Profile Dropdown -->
+			<div class="profile-menu">
+				<i class="fa-solid fa-user profile-icon"></i>
+				<div class="dropdown">
+					<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
+					<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+					<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+			</div>
+		</div>
+	 
+	 
+  
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Book Bus Tickets Online</h1>
             <p>Safe, fast, and affordable bus tickets for all your journeys</p>
- 
+
             <!-- Form to search buses -->
             <form class="search-form" method="POST" th:action="@{/searchBuses}">
                 <label for="from-location">From</label>
@@ -36,32 +51,23 @@
                     <option value="">Select City</option>
                     <option th:each="route : ${routes}" th:value="${route.fromCity}" th:text="${route.fromCity}"></option>
                 </select>
- 
+
                 <label for="to-location">To</label>
                 <select id="to-location" name="toLocation" required>
                     <option value="">Select City</option>
                     <option th:each="route : ${routes}" th:value="${route.toCity}" th:text="${route.toCity}"></option>
                 </select>
- 
+
                 <label for="date">Date</label>
                 <input type="date" id="date" name="date" required>
- 
+
                 <button type="submit">Search Buses</button>
             </form>
         </div>
     </section>
- 
-    <!-- Sidebar (Profile Links) -->
-    <div id="mySidebar" class="sidebar">
-        <!-- Cross Icon to Close Sidebar -->
-        <a href="javascript:void(0)" class="close-btn" onclick="document.getElementById('mySidebar').style.width = '0'">&times;</a>
-        <a href="/api/profile">My Profile</a>
-        <a href="#my-bookings">My Bookings</a>
-        <a href="/logout">Logout</a>
-    </div>
- 
+
+   
+
 </body>
- 
+
 </html>
- 
- 
