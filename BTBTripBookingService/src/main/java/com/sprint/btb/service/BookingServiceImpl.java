@@ -34,6 +34,7 @@ public class BookingServiceImpl implements BookingService {
     private RestTemplate restTemplate; 
 
 	@Override
+	@Transactional
 	public BookingModel createBooking(BookingModel bookingModel) throws BadRequestException {
 		if (!isCustomerValid(bookingModel.getCustomerId())) {
 	        throw new BadRequestException("Customer with ID " + bookingModel.getCustomerId() + " not found.");
@@ -72,12 +73,12 @@ public class BookingServiceImpl implements BookingService {
 			newBooking.setSeatNumber(bookingModel.getSeatNumber());
 			newBooking.setCustomerId(bookingModel.getCustomerId()); 
 			newBooking.setStatus(BookingEntity.BookingStatus.Booked);
-			bookingRepo.save(newBooking);
+			bookingRepo.saveAndFlush(newBooking);
 		}
 
 		// Reduce availableSeats in TripEntity
 		trip.setAvailableSeats(trip.getAvailableSeats() - 1);
-		tripRepo.save(trip);
+		tripRepo.saveAndFlush(trip);
 
 		return BTBUtil.convertBookingEntityToModel(existingBooking.orElseGet(() -> bookingRepo
 				.findByTripIdAndSeatNumber(bookingModel.getTripId(), bookingModel.getSeatNumber()).get()));
@@ -135,10 +136,10 @@ public class BookingServiceImpl implements BookingService {
 
 		bookingEntity.setStatus(BookingEntity.BookingStatus.Available);
 		bookingEntity.setCustomerId(null);
-		bookingRepo.save(bookingEntity);
+		bookingRepo.saveAndFlush(bookingEntity);
 
 		trip.setAvailableSeats(trip.getAvailableSeats() + 1);
-		tripRepo.save(trip);
+		tripRepo.saveAndFlush(trip);
 
 		return "Booking ID " + bookingId + " has been successfully canceled.";
 	}
@@ -185,7 +186,7 @@ public class BookingServiceImpl implements BookingService {
 		}
 
 		// Save updated booking
-		BookingEntity savedBooking = bookingRepo.save(existingBooking);
+		BookingEntity savedBooking = bookingRepo.saveAndFlush(existingBooking);
 		return BTBUtil.convertBookingEntityToModel(savedBooking);
 	}
 
