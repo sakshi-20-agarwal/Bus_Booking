@@ -1,75 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookBus.com</title>
-    <link rel="stylesheet" href="/css/home.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>BookBus.com</title>
+	<link rel="stylesheet" href="/css/home.css">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+	<!-- Google Fonts -->
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+	</style>
 </head>
 
 <body>
 
 	<!-- Navbar -->
-		<div class="navbar">
-			<!-- Logo -->
-			<div class="logo">
-				<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
-			</div>
-	 
-			<!-- Navigation Links -->
-			<div class="nav-links">
-				<a th:href="@{/login}">Login</a>
-				           <a th:href="@{/register}">Register</a>
-			</div>
-	 
-			<!-- Profile Dropdown -->
-			<div class="profile-menu">
-				<i class="fa-solid fa-user profile-icon"></i>
-				<div class="dropdown">
-					<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
-					<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
-					<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+	<div class="navbar">
+		<!-- Logo -->
+		<div class="logo">
+			<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+		</div>
+
+		<!-- Navigation Links -->
+		<div class="nav-links">
+			<a th:href="@{/login}">Login</a>
+			<a th:href="@{/register}">Register</a>
+		</div>
+
+	</div>
+
+
+
+
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="hero-content">
+			<h1>Book Bus Tickets Online</h1>
+			<p>Safe, fast, and affordable bus tickets for all your journeys</p>
+
+			<!-- Form to search buses -->
+			<form class="search-form" method="POST" th:action="@{/searchBuses}">
+				<label for="from-location">From</label>
+				<select id="from-location" name="fromLocation" required>
+					<option value="">Select City</option>
+					<option th:each="route : ${routes}" th:value="${route.fromCity}" th:text="${route.fromCity}">
+					</option>
+				</select>
+
+				<label for="to-location">To</label>
+				<select id="to-location" name="toLocation" required>
+					<option value="">Select City</option>
+					<option th:each="route : ${routes}" th:value="${route.toCity}" th:text="${route.toCity}"></option>
+				</select>
+
+				<label for="date">Date</label>
+				<input type="date" id="date" name="date" required>
+
+				<button type="submit">Search Buses</button>
+			</form>
+
+			<!-- Display Message if User Needs to Log In -->
+			<div th:if="${message}">
+				<div class="alert alert-warning"
+					style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 5px; text-align: center;">
+					<p th:text="${message}"></p>
 				</div>
 			</div>
 		</div>
-	 
-	 
-   
+	</section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Book Bus Tickets Online</h1>
-            <p>Safe, fast, and affordable bus tickets for all your journeys</p>
+	<script>
+		// Get today's date in YYYY-MM-DD format
+		let today = new Date().toISOString().split('T')[0];
 
-            <!-- Form to search buses -->
-            <form class="search-form" method="POST" th:action="@{/searchBuses}">
-                <label for="from-location">From</label>
-                <select id="from-location" name="fromLocation" required>
-                    <option value="">Select City</option>
-                    <option th:each="route : ${routes}" th:value="${route.fromCity}" th:text="${route.fromCity}"></option>
-                </select>
-
-                <label for="to-location">To</label>
-                <select id="to-location" name="toLocation" required>
-                    <option value="">Select City</option>
-                    <option th:each="route : ${routes}" th:value="${route.toCity}" th:text="${route.toCity}"></option>
-                </select>
-
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
-
-                <button type="submit">Search Buses</button>
-            </form>
-
-            <!-- Display Message if User Needs to Log In -->
-            <div th:if="${message}">
-                <div class="alert alert-warning" style="padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 5px; text-align: center;">
-                    <p th:text="${message}"></p>
-                </div>
-            </div>
-        </div>
-    </section>
+		// Set the min attribute to today's date
+		document.getElementById("date").setAttribute("min", today);
+	</script>
 
 </body>
+
 </html>

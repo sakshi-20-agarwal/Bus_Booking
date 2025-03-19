@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
+
 <body>
-	
+
 	<!-- Navbar -->
-			<div class="navbar">
-				<!-- Logo -->
-				<div class="logo">
-					<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
-				</div>
-		 
-				<!-- Navigation Links -->
-				<div class="nav-links">
-					<a th:href="@{/home}">Home</a>
-				</div>
-		 
-				
-			</div>
-    <div class="container">
-        <h1>Login</h1>
-        <form th:action="@{/login}" method="POST">
+	<div class="navbar">
+		<div class="logo">
+			<img th:src="@{/images/logo.png}" alt="App Logo">
+		</div>
+
+		<div class="nav-links">
+			<a th:href="@{/home}">Home</a>
+				<a th:href="@{/logout}">Logout</a>
+			</span>
+			<span th:unless="${session.loggedInCustomer}">
+				<a th:href="@{/login}">Login</a>
+			</span>
+		</div>
+	</div>
+	<div class="container">
+		<h1>Login</h1>
+		<form th:action="@{/login}" method="POST">
 			<!-- Display error message if exists -->
-					            <div th:if="${error != null}" class="error-message" style="color: red;">
-					                <p th:text="${error}"></p>
-					            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required/>
-            </div>
+			<div th:if="${error != null}" class="error-message" style="color: red;">
+				<p th:text="${error}"></p>
+			</div>
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" required />
+			</div>
 
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required/>
-            </div>
+			<div class="form-group">
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password" required />
+			</div>
 
-            <button type="submit">Login</button>
-        </form>
+			<button type="submit">Login</button>
+		</form>
 
-		
-        <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
-    </div>
+
+		<p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+	</div>
 </body>
+
 </html>

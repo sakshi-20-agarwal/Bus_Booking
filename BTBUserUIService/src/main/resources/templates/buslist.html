@@ -27,7 +27,7 @@
 			position: sticky;
 			position: sticky;
 			top: 0;
-			z-index: 1000; 
+			z-index: 1000;
 		}
 
 		.logo img {
@@ -225,7 +225,7 @@
 		<!-- Navigation Links -->
 		<div class="nav-links">
 			<a th:href="@{/index}">Home</a>
-			<a th:href="@{/customerbookings}">My Bookings</a>
+			<a th:href="@{/customerBookings}">My Bookings</a>
 			<a th:href="@{/contact}">Contact</a>
 		</div>
 
@@ -234,7 +234,6 @@
 			<i class="fa-solid fa-user profile-icon"></i>
 			<div class="dropdown">
 				<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
-				<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
 				<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 			</div>
 		</div>
@@ -249,24 +248,27 @@
 				<tr>
 					<th>Bus Name</th>
 					<th>Bus Type</th>
-					<th>Departure</th>
-					<th>Arrival</th>
+					<th>From City</th>
+					<th>To City</th>
+					<th>Departure Time</th>
+					<th>Arrival Time</th>
+					<th>Available Seats</th>
 					<th>Fare</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="trip : ${trips}">
-					<td th:text="${trip.busName}"></td>
-					<td th:text="${trip.busType}"></td>
-					<td th:text="${trip.departureTime}"></td>
-					<td th:text="${trip.arrivalTime}"></td>
-					<td th:text="'₹' + ${trip.fare}"></td>
+					<td th:text="${trip.bus.busName}">Bus Name</td>
+					<td th:text="${trip.bus.busType}">Bus Type</td>
+					<td th:text="${trip.route.fromCity}">From City</td>
+					<td th:text="${trip.route.toCity}">To City</td>
+					<td th:text="${#temporals.format(trip.departureTime, 'yyyy-MM-dd HH:mm')}">Departure</td>
+					<td th:text="${#temporals.format(trip.arrivalTime, 'yyyy-MM-dd HH:mm')}">Arrival</td>
+					<td th:text="${trip.availableSeats}">Seats</td>
+					<td th:text="'₹' + ${trip.fare}">Fare</td>
 					<td>
-						<a th:href="@{/seatbooking/{tripId}/{busId}(tripId=${trip.tripId}, busId=${trip.busId})}"
-							class="book-button">
-							<i class="fa-solid fa-ticket"></i> Book Now
-						</a>
+						<a th:href="@{/seatbooking/{tripId}/{busId}(tripId=${trip.tripId}, busId=${trip.bus.busId})}" class="btn">Book Now</a>
 					</td>
 				</tr>
 			</tbody>

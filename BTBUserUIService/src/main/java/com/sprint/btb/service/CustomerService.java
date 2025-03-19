@@ -1,102 +1,79 @@
 package com.sprint.btb.service;
- 
+
 import com.sprint.btb.model.CustomerModel;
-
 import com.sprint.btb.model.LoginModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.client.HttpClientErrorException;
-
 import org.springframework.web.client.RestTemplate;
-
 import org.springframework.http.HttpEntity;
-
 import org.springframework.http.HttpHeaders;
-
 import org.springframework.http.HttpMethod;
-
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
- 
+
 @Service
 
 public class CustomerService {
- 
-    private static final String CUSTOMER_SERVICE_URL = "http://localhost:9092/api/customers";
- 
-    @Autowired
 
-    private RestTemplate restTemplate;
- 
-    // Register customer (via /create endpoint of customer microservice)
+	private static final String CUSTOMER_SERVICE_URL = "http://localhost:9092/api/customers";
 
-    public CustomerModel registerCustomer(CustomerModel customerModel) {
+	@Autowired
 
-        String url = CUSTOMER_SERVICE_URL + "/create";
+	private RestTemplate restTemplate;
 
-        HttpHeaders headers = new HttpHeaders();
+	// Register customer (via /create endpoint of customer microservice)
+	public CustomerModel registerCustomer(CustomerModel customerModel) {
+		String url = CUSTOMER_SERVICE_URL + "/create";
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/json");
+		HttpEntity<CustomerModel> request = new HttpEntity<>(customerModel, headers);
+		ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.POST, request,
+				CustomerModel.class);
+		return response.getBody(); // Return the registered customer data
+	}
 
-        headers.set("Content-Type", "application/json");
- 
-        HttpEntity<CustomerModel> request = new HttpEntity<>(customerModel, headers);
+	// Login customer (via /login endpoint of customer microservice)
 
-        ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.POST, request, CustomerModel.class);
- 
-        return response.getBody(); // Return the registered customer data
+	public CustomerModel loginCustomer(LoginModel loginModel) {
+		String url = CUSTOMER_SERVICE_URL + "/login";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
 
-    }
- 
-    // Login customer (via /login endpoint of customer microservice)
+		HttpEntity<LoginModel> request = new HttpEntity<>(loginModel, headers);
 
-    public CustomerModel loginCustomer(LoginModel loginModel) {
+		try {
+			ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.POST, request,
+					CustomerModel.class);
 
-        String url = CUSTOMER_SERVICE_URL + "/login";
+			// Ensure the response body is not null before returning
+			if (response.getBody() != null) {
+				return response.getBody();
+			} else {
+				throw new RuntimeException("Login failed: No customer data returned");
+			}
+		} catch (HttpClientErrorException.Unauthorized e) {
+			throw new RuntimeException("Unauthorized access: Invalid credentials");
+		} catch (HttpClientErrorException.NotFound e) {
+			throw new RuntimeException("Customer not found: Please register first");
+		} catch (Exception e) {
+			throw new RuntimeException("Error during login: " + e.getMessage());
+		}
+	}
 
-        HttpHeaders headers = new HttpHeaders();
+	// Fetch customer details by customer ID
+	public CustomerModel getCustomerDetails(Long customerId) {
+		String url = CUSTOMER_SERVICE_URL + "/" + customerId;
 
-        headers.set("Content-Type", "application/json");
- 
-        HttpEntity<LoginModel> request = new HttpEntity<>(loginModel, headers);
- 
-        try {
-
-            // Attempt to log in the customer by calling the login endpoint
-
-            ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.POST, request, CustomerModel.class);
-
-            return response.getBody(); // Return the logged-in customer data (if valid)
-
-        } catch (HttpClientErrorException.Unauthorized e) {
-
-            // Handle 401 Unauthorized error
-
-            throw new RuntimeException("Unauthorized access: Invalid credentials");
-
-        } catch (Exception e) {
-
-            // Handle other errors (e.g., 500, network issues, etc.)
-
-            throw new RuntimeException("Error during login: " + e.getMessage());
-
-        }
-    }
-        
-        // Fetch customer details by customer ID (to use in session after login)
-        public CustomerModel getCustomerDetails(Long customerId) {
-            String url = CUSTOMER_SERVICE_URL + "/{customerId}";
-            try {
-                ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.GET, null, CustomerModel.class, customerId);
-                return response.getBody();  // Return customer details if found
-            } catch (Exception e) {
-                // Handle errors (e.g., customer not found, server error, etc.)
-                throw new RuntimeException("Error fetching customer details: " + e.getMessage());
-            }
-        
-
-    }
+		try {
+			ResponseEntity<CustomerModel> response = restTemplate.exchange(url, HttpMethod.GET, null,
+					CustomerModel.class);
+			return response.getBody();
+		} catch (HttpClientErrorException.NotFound e) {
+			throw new RuntimeException("Customer not found");
+		} catch (Exception e) {
+			throw new RuntimeException("Error fetching customer details: " + e.getMessage());
+		}
+	}
 
 }
-
- 

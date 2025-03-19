@@ -18,9 +18,9 @@ public class SecurityConfig {
 
 	private CustomerDetailsService customerDetailsService;
 
-//	public SecurityConfig(CustomerDetailsService customerDetailsService) {
-//		this.customerDetailsService = customerDetailsService;
-//	}
+	public SecurityConfig(CustomerDetailsService customerDetailsService) {
+		this.customerDetailsService = customerDetailsService;
+	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

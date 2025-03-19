@@ -10,18 +10,25 @@ public class BookingModel {
 
 	private TripModel tripModel;
 	private RouteModel routeModel;
+	private BusModel busModel;
 
 	public BookingModel() {
 	}
 
-	public BookingModel(int bookingId, Integer seatNumber, int tripId, BookingStatus status, Integer customerId) {
+	public BookingModel(int bookingId, Integer seatNumber, int tripId, Integer customerId, BookingStatus status,
+			TripModel tripModel, RouteModel routeModel, BusModel busModel) {
 		super();
 		this.bookingId = bookingId;
 		this.seatNumber = seatNumber;
 		this.tripId = tripId;
-		this.status = status;
 		this.customerId = customerId;
+		this.status = status;
+		this.tripModel = tripModel;
+		this.routeModel = routeModel;
+		this.busModel = busModel;
 	}
+
+
 
 	public int getBookingId() {
 		return bookingId;
@@ -73,6 +80,15 @@ public class BookingModel {
 
 	public RouteModel getRouteModel() {
 		return routeModel;
+	}
+	
+
+	public BusModel getBusModel() {
+		return busModel;
+	}
+
+	public void setBusModel(BusModel busModel) {
+		this.busModel = busModel;
 	}
 
 	public void setRouteModel(RouteModel routeModel) {

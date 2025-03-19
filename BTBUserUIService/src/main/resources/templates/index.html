@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookBus.com</title>
     <link rel="stylesheet" href="/css/index.css"> <!-- Link to the external CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	
 </head>
 
 <body>
@@ -14,13 +16,13 @@
 		<div class="navbar">
 			<!-- Logo -->
 			<div class="logo">
-				<img th:src="@{/images/logo.png}" alt="App Logo" class="logo">
+				<img th:src="@{/images/logo.png}" alt="App Logo">
 			</div>
 	 
 			<!-- Navigation Links -->
 			<div class="nav-links">
 				<a th:href="@{/index}">Home</a>
-				<a th:href="@{/mybookings}">My Bookings</a>
+				<a th:href="@{/customerBookings}">My Bookings</a>
 				<a th:href="@{/contact}">Contact</a>
 			</div>
 	 
@@ -29,7 +31,6 @@
 				<i class="fa-solid fa-user profile-icon"></i>
 				<div class="dropdown">
 					<a th:href="@{/profile}"><i class="fa-solid fa-user"></i> My Profile</a>
-					<a th:href="@{/mybookings}"><i class="fa-solid fa-ticket"></i> My Bookings</a>
 					<a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 				</div>
 			</div>
@@ -37,9 +38,10 @@
 	 
 	 
   
-
+		<p class="welcome">Welcome, <span th:text="${session.loggedInCustomer != null ? session.loggedInCustomer.name : 'Guest'}"></span>!!</p>
     <!-- Hero Section -->
     <section class="hero">
+		
         <div class="hero-content">
             <h1>Book Bus Tickets Online</h1>
             <p>Safe, fast, and affordable bus tickets for all your journeys</p>
@@ -66,6 +68,13 @@
         </div>
     </section>
 
+	<script>
+	    // Get today's date in YYYY-MM-DD format
+	    let today = new Date().toISOString().split('T')[0];
+
+	    // Set the min attribute to today's date
+	    document.getElementById("date").setAttribute("min", today);
+	</script>
    
 
 </body>

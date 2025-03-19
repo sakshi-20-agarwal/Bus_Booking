@@ -36,6 +36,10 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	@Transactional
 	public BookingModel createBooking(BookingModel bookingModel) throws BadRequestException {
+		if (bookingModel.getCustomerId() == null) {
+	        throw new BadRequestException("Customer ID is required for booking.");
+	    }
+		
 		if (!isCustomerValid(bookingModel.getCustomerId())) {
 	        throw new BadRequestException("Customer with ID " + bookingModel.getCustomerId() + " not found.");
 	    }
@@ -66,7 +70,8 @@ public class BookingServiceImpl implements BookingService {
 			bookingRepo.updateBookingStatus(bookingModel.getTripId(), bookingModel.getSeatNumber(),
 					BookingEntity.BookingStatus.Booked);
 			bookedSeat.setStatus(BookingEntity.BookingStatus.Booked);
-			bookedSeat.setCustomerId(bookingModel.getCustomerId()); 
+			bookedSeat.setCustomerId(bookingModel.getCustomerId());
+			 bookingRepo.saveAndFlush(bookedSeat);
 		} else {
 			BookingEntity newBooking = new BookingEntity();
 			newBooking.setTrip(trip);
