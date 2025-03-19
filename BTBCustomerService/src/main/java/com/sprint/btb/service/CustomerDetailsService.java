@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private final CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
-    public CustomerDetailsService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+//    public CustomerDetailsService(CustomerRepository customerRepository) {
+//        this.customerRepository = customerRepository;
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
