@@ -9,8 +9,6 @@ import com.sprint.btb.model.ReviewModel;
 public interface ReviewService {
 	ReviewModel getReviewById(int reviewId) throws BadRequestException;
 
-	ReviewModel addReview(ReviewEntity review) throws BadRequestException;
-
 	ReviewModel updateReview(int reviewId, ReviewModel reviewModel) throws BadRequestException;
 
 	String deleteReview(int reviewId) throws BadRequestException;
@@ -22,4 +20,6 @@ public interface ReviewService {
 	List<ReviewModel> getAllReviews() throws BadRequestException;
 
 	List<ReviewModel> getReviewsByCustomerId(int customerId) throws BadRequestException;
+
+	ReviewModel addReview(ReviewModel reviewModel) throws BadRequestException;
 }

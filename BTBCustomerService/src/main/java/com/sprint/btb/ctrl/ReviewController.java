@@ -25,8 +25,8 @@ public class ReviewController {
 	}
 
 	@PostMapping("/add")
-	public ReviewModel writeReview(@RequestBody ReviewEntity reviewEntity) throws BadRequestException {
-		return reviewService.addReview(reviewEntity);
+	public ReviewModel writeReview(@RequestBody ReviewModel reviewModel) throws BadRequestException {
+		return reviewService.addReview(reviewModel);
 	}
 
 	@PutMapping("/update/{id}")

@@ -7,11 +7,15 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.sprint.btb.entity.PaymentEntity;
 import com.sprint.btb.entity.ReviewEntity;
 import com.sprint.btb.exception.BadRequestException;
 import com.sprint.btb.model.ReviewModel;
 import com.sprint.btb.model.TripModel;
+import com.sprint.btb.repo.CustomerRepository;
 import com.sprint.btb.repo.ReviewRepository;
+import com.sprint.btb.util.PaymentUtil;
 import com.sprint.btb.util.ReviewUtil;
 
 @Service
@@ -22,30 +26,28 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	private RestTemplate restTemplate;
-	private static final String TRIP_SERVICE_URL = "http://localhost:9005/api/trips";
+	private static final String TRIP_SERVICE_URL = "http://localhost:9093/api/trips";
 
 	@Override
-	public ReviewModel getReviewById(int reviewId) throws BadRequestException {
+	public List<ReviewModel> getAllReviews() throws BadRequestException {
 		try {
-			ReviewEntity review = reviewRepository.findById(reviewId)
-					.orElseThrow(() -> new BadRequestException("Review not found"));
-			TripModel tripModel = restTemplate.getForObject(TRIP_SERVICE_URL + "/" + review.getTripId(),
-					TripModel.class);
-			if (tripModel == null) {
-				throw new BadRequestException("Trip not found");
-			}
-			ReviewModel reviewModel = ReviewUtil.convertReviewEntityToEntityModel(review);
-			return reviewModel;
+			List<ReviewEntity> reviews = reviewRepository.findAll();
+			return reviews.stream().map(ReviewUtil::convertReviewEntityToReviewModel).collect(Collectors.toList());
 		} catch (Exception e) {
-			throw new BadRequestException("Error fetching review");
+			throw new BadRequestException("Error fetching all reviews");
 		}
 	}
+	
+	@Autowired
+	private CustomerRepository customerRepository;
 
 	@Override
-	public ReviewModel addReview(ReviewEntity review) throws BadRequestException {
+	public ReviewModel addReview(ReviewModel reviewModel) throws BadRequestException {
 		try {
-			ReviewEntity savedReview = reviewRepository.save(review);
-			return ReviewUtil.convertReviewEntityToEntityModel(savedReview);
+			ReviewEntity reviewEntity = ReviewUtil.convertReviewModelToReviewEntity(reviewModel,
+					customerRepository);
+			ReviewEntity savedReview = reviewRepository.save(reviewEntity);
+			return ReviewUtil.convertReviewEntityToReviewModel(savedReview);
 		} catch (Exception e) {
 			throw new BadRequestException("Invalid review data");
 		}
@@ -60,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
 			existingReview.setComment(reviewModel.getComment());
 			existingReview.setReviewDate(reviewModel.getReviewDate());
 			ReviewEntity updatedReview = reviewRepository.save(existingReview);
-			return ReviewUtil.convertReviewEntityToEntityModel(updatedReview);
+			return ReviewUtil.convertReviewEntityToReviewModel(updatedReview);
 		} catch (Exception e) {
 			throw new BadRequestException("Error updating review");
 		}
@@ -97,7 +99,7 @@ public class ReviewServiceImpl implements ReviewService {
 	    
 	    List<ReviewModel> reviewModels = new ArrayList<>();
 	    for (ReviewEntity review : reviews) {
-	        reviewModels.add(ReviewUtil.convertReviewEntityToEntityModel(review));
+	        reviewModels.add(ReviewUtil.convertReviewEntityToReviewModel(review));
 	    }
 	    return reviewModels;
 	}
@@ -107,19 +109,27 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<ReviewModel> getReviewsByTripId(int tripId) throws BadRequestException {
 		try {
 			List<ReviewEntity> reviews = reviewRepository.findReviewByTripId(tripId);
-			return reviews.stream().map(ReviewUtil::convertReviewEntityToEntityModel).collect(Collectors.toList());
+			return reviews.stream().map(ReviewUtil::convertReviewEntityToReviewModel).collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new BadRequestException("Error fetching reviews by trip ID");
 		}
 	}
-
 	@Override
-	public List<ReviewModel> getAllReviews() throws BadRequestException {
+	public ReviewModel getReviewById(int reviewId) throws BadRequestException {
 		try {
-			List<ReviewEntity> reviews = reviewRepository.findAll();
-			return reviews.stream().map(ReviewUtil::convertReviewEntityToEntityModel).collect(Collectors.toList());
+			ReviewEntity review = reviewRepository.findById(reviewId)
+					.orElseThrow(() -> new BadRequestException("Review not found"));
+			TripModel tripModel = restTemplate.getForObject(TRIP_SERVICE_URL + "/" + review.getTripId(),
+					TripModel.class);
+			if (tripModel == null) {
+				throw new BadRequestException("Trip not found");
+			}
+			ReviewModel reviewModel = ReviewUtil.convertReviewEntityToReviewModel(review);
+			return reviewModel;
 		} catch (Exception e) {
-			throw new BadRequestException("Error fetching all reviews");
+			throw new BadRequestException("Error fetching review");
 		}
 	}
+
+	
 }

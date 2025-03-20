@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add Review</title>
+
+	<!-- Link to Google Fonts for Poppins -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+	<!-- Embedded CSS for styling the form and messages -->
+	<style>
+
+		body {
+			font-family: 'Poppins', sans-serif;
+			background-color: #f7f7f7;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.add-review-container {
+			background-color: #ffffff;
+			border-radius: 12px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+			padding: 30px;
+			width: 100%;
+			max-width: 600px;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.add-review-container:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		h2 {
+			text-align: center;
+			font-size: 28px;
+			font-weight: 600;
+			margin-bottom: 20px;
+			color: #E11C23;
+			/* Red color like RedBus */
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		.form-group label {
+			font-size: 16px;
+			color: #333;
+			margin-bottom: 8px;
+			display: block;
+		}
+
+		.form-group input,
+		.form-group textarea,
+		.form-group select {
+			width: 100%;
+			padding: 12px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+			font-size: 16px;
+			color: #333;
+			margin-top: 8px;
+			transition: border 0.3s ease;
+		}
+
+		.form-group input:focus,
+		.form-group textarea:focus,
+		.form-group select:focus {
+			border-color: #E11C23;
+			/* Red color like RedBus */
+			outline: none;
+		}
+
+		.form-group textarea {
+			resize: vertical;
+			min-height: 120px;
+			padding-right: 0px;
+		}
+
+		button {
+			width: 100%;
+			padding: 14px;
+			background-color: #d84e55;
+			/* Red color like RedBus */
+			color: white;
+			font-size: 16px;
+			font-weight: 600;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		button:hover {
+			background-color: #C21B1E;
+			/* Darker Red */
+		}
+
+		.message-container {
+			margin-bottom: 20px;
+			padding: 15px;
+			border-radius: 8px;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.message {
+			font-size: 18px;
+		}
+
+		/* Success message styling */
+		.success {
+			background-color: #d4edda;
+			color: #155724;
+		}
+
+		/* Error message styling */
+		.error {
+			background-color: #f8d7da;
+			color: #721c24;
+		}
+
+		/* Additional responsive design tweaks */
+		@media (max-width: 768px) {
+			.add-review-container {
+				padding: 20px;
+			}
+
+			h2 {
+				font-size: 24px;
+			}
+
+			.form-group input,
+			.form-group textarea,
+			.form-group select {
+				font-size: 14px;
+				padding: 10px;
+			}
+
+			button {
+				font-size: 14px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Add Review Form Section -->
+	<div class="add-review-container">
+		<h2>Add Your Review</h2>
+
+		<!-- Display success or error message after form submission -->
+		<div th:if="${message}" class="message-container" th:class="${messageType}">
+			<p th:text="${message}" class="message"></p>
+		</div>
+
+		<!-- Review Form -->
+		<form action="/addReview" method="POST">
+			<div class="form-group">
+				<label for="rating">Rating (1-5):</label>
+				<select id="rating" name="rating" required>
+					<option value="">Select Rating</option>
+					<option value="1">1 - Poor</option>
+					<option value="2">2 - Fair</option>
+					<option value="3">3 - Good</option>
+					<option value="4">4 - Very Good</option>
+					<option value="5">5 - Excellent</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="comment">Comment:</label>
+				<textarea id="comment" name="comment" rows="4" required></textarea>
+			</div>
+
+			<button type="submit">Submit Review</button>
+		</form>
+	</div>
+
+</body>
+
+</html>
