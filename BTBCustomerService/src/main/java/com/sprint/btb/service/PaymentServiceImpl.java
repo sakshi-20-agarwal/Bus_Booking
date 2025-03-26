@@ -38,11 +38,7 @@ public class PaymentServiceImpl implements PaymentService {
 		PaymentEntity payment = paymentRepository.findById(paymentId)
 				.orElseThrow(() -> new BadRequestException("Payment with given Id not found"));
 
-		/*
-		 * String url = BOOKING_SERVICE_URL + "/" + paymentId; BookingModel booking =
-		 * restTemplate.getForObject(url, BookingModel.class); if (booking == null) {
-		 * throw new BadRequestException("Booking not found"); }
-		 */
+		
 
 		PaymentModel paymentDTO = PaymentUtil.convertPaymentEntityToPaymentModel(payment);
 		return paymentDTO;
